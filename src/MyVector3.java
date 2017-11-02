@@ -4,6 +4,7 @@
  */
 public class MyVector3 {
 
+    public int x, y, z;
 
     MyVector3() {
 

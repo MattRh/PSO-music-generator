@@ -4,6 +4,7 @@
  */
 public class MyNote {
 
+    public int number;
 
     MyNote() {
 
