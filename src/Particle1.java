@@ -18,7 +18,19 @@ public class Particle1 {
     private double bestFitness;
 
     private Particle1() {
+        // TODO: generate random chords
 
+        // TODO: generate random velocities
+    }
+
+    public double calculateFitness() {
+        // TODO: fitness calculation
+
+        return fitness;
+    }
+
+    public void setVelocities(MyVector3[] velocities) {
+        this.velocities = velocities;
     }
 
     public double getFitness() {
@@ -26,7 +38,11 @@ public class Particle1 {
     }
 
     public double getBestFitness() {
+        return bestFitness;
+    }
 
+    public MyChord[] getChords() {
+        return chords;
     }
 
 }
