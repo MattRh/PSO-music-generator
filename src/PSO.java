@@ -31,7 +31,8 @@ public class PSO<PT extends IParticle> {
         globalBest = population[rnd];
 
         for(int i = 0; i < ITERATIONS; i++) {
-            // TODO: Update particles. Find new global best and save it
+            // TODO: Update particles
+            // TODO: Find new global best and save it
         }
 
         return globalBest;

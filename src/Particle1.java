@@ -41,12 +41,12 @@ public class Particle1 implements IParticle {
 
     @Override
     public void updateVelocity(IParticle gBest) {
-        // TODO
+        // TODO: make method
     }
 
     @Override
     public void updateParticle() {
-        // TODO
+        // TODO: make method
     }
 
     public double getBestFitness() {
