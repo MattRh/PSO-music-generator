@@ -21,8 +21,18 @@ public class Particle1 implements IParticle {
     private MyChord[] bestChords;
     private double bestFitness;
 
-    private Particle1() {
+    public Particle1() {
         regenerate();
+    }
+
+    public Particle1(MyChord[] chords, MyVector3[] velocities, double fitness) {
+        this.chords = chords;
+        bestChords = chords;
+
+        this.velocities = velocities;
+
+        this.fitness = fitness;
+        bestFitness = fitness;
     }
 
     public void regenerate() {
@@ -62,8 +72,8 @@ public class Particle1 implements IParticle {
 
         for(int i = 0; i < CHORDS_NUMBER; i++) {
             MyVector3 component1 = velocities[i].mul(INERTIA_COMPONENT);
-            MyVector3 component2 = bestChords[i].sub(chords[i]).mul(COGNITIVE_COMPONENT * Randomizer.getRandomFactor()).toVector();
-            MyVector3 component3 = gBestParticle.getChord(i).sub(chords[i]).mul(SOCIAL_COMPONENT * Randomizer.getRandomFactor()).toVector();
+            MyVector3 component2 = bestChords[i].sub(chords[i]).toVector().mul(COGNITIVE_COMPONENT * Randomizer.getRandomFactor());
+            MyVector3 component3 = gBestParticle.getChord(i).sub(chords[i]).toVector().mul(SOCIAL_COMPONENT * Randomizer.getRandomFactor());
 
             velocities[i] = component1.add(component2).add(component3);
         }
@@ -81,6 +91,11 @@ public class Particle1 implements IParticle {
             bestChords = chords.clone();
             bestFitness = fitness;
         }
+    }
+
+    @Override
+    public IParticle clone() {
+        return new Particle1(chords.clone(), velocities.clone(), fitness);
     }
 
     public double getBestFitness() {

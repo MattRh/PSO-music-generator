@@ -29,12 +29,24 @@ public class PSO<PT extends IParticle> {
         bestFitness = globalBest.getFitness();
 
         for(int i = 0; i < ITERATIONS; i++) {
+            int newBestIndex = -1;
+
             for(int j = 0; j < POPULATION_SIZE; j++) {
                 population[j].updateVelocity(globalBest);
                 population[j].updateParticle();
+
+                if(population[i].getFitness() >= bestFitness) {
+                    newBestIndex = i;
+
+                    // Small hack to search now only values that are larger than that
+                    bestFitness = population[i].getFitness();
+                }
             }
 
-            // TODO: Find new global best and save it
+            if(newBestIndex >= 0) {
+                globalBest = (PT) population[i].clone();
+                bestFitness = globalBest.getFitness();
+            }
         }
 
         return globalBest;

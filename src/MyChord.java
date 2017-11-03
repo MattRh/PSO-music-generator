@@ -35,7 +35,7 @@ public class MyChord {
     }
 
     public MyChord sub(MyChord other) {
-        return new MyChord(n1 + other.n1, n2 + other.n2, n3 + other.n3);
+        return new MyChord(n1 - other.n1, n2 - other.n2, n3 - other.n3);
     }
 
     public MyChord mul(double factor) {

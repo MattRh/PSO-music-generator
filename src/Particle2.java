@@ -32,4 +32,9 @@ public class Particle2 implements IParticle {
     public void updateParticle() {
         // TODO: fill the method
     }
+
+    @Override
+    public IParticle clone() {
+        return null;
+    }
 }

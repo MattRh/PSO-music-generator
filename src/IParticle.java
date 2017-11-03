@@ -28,4 +28,10 @@ public interface IParticle {
      */
     public void updateParticle();
 
+    /**
+     * Clones current particle
+     * @return Exact clone of current particle
+     */
+    public IParticle clone();
+
 }

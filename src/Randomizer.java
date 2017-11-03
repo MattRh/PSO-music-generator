@@ -11,8 +11,7 @@ public class Randomizer {
     }
 
     public static double getRandomDouble(double min, double max) {
-        // TODO
-        return (double)getRandomInt((int)min, (int)max);
+        return Math.random() * (max - min) + min;
     }
 
     /**
