@@ -4,15 +4,15 @@
  */
 public class MyVector3 {
 
-    public int x, y, z;
+    public double x, y, z;
 
     MyVector3(int minVal, int maxVal) {
-        x = Randomizer.getRandomInt(minVal, maxVal);
-        y = Randomizer.getRandomInt(minVal, maxVal);
-        z = Randomizer.getRandomInt(minVal, maxVal);
+        x = Randomizer.getRandomDouble(minVal, maxVal);
+        y = Randomizer.getRandomDouble(minVal, maxVal);
+        z = Randomizer.getRandomDouble(minVal, maxVal);
     }
 
-    MyVector3(int x, int y, int z) {
+    MyVector3(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -24,22 +24,12 @@ public class MyVector3 {
         z = other.z;
     }
 
-    public void add(MyVector3 other) {
-        x += other.x;
-        y += other.y;
-        z += other.z;
+    public MyVector3 add(MyVector3 other) {
+        return new MyVector3(x + other.x, y + other.y, z + other.z);
     }
 
-    public void sub(MyVector3 other) {
-        x -= other.x;
-        y -= other.y;
-        z -= other.z;
-    }
-
-    public void mul(double factor) {
-        x *= factor;
-        y *= factor;
-        z *= factor;
+    public MyVector3 mul(double factor) {
+        return new MyVector3(x * factor, y * factor, z * factor);
     }
 
 }

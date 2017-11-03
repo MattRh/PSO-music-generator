@@ -9,10 +9,6 @@ public class PSO<PT extends IParticle> {
     private final int POPULATION_SIZE = 16;
     private final int ITERATIONS = 10000;
 
-    private final double INERTIA_COMPONENT = 1; // Tendency to save current velocity
-    private final double COGNITIVE_COMPONENT = 1; // Tendency to return to local best
-    private final double SOCIAL_COMPONENT = 1; // Tendency to return to global best
-
     private PT[] population;
 
     private PT globalBest;
@@ -27,11 +23,17 @@ public class PSO<PT extends IParticle> {
      */
     public PT execute() {
         generatePopulation();
+
         int rnd = new Random().nextInt(POPULATION_SIZE);
         globalBest = population[rnd];
+        bestFitness = globalBest.getFitness();
 
         for(int i = 0; i < ITERATIONS; i++) {
-            // TODO: Update particles
+            for(int j = 0; j < POPULATION_SIZE; j++) {
+                population[j].updateVelocity(globalBest);
+                population[j].updateParticle();
+            }
+
             // TODO: Find new global best and save it
         }
 

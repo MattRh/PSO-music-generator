@@ -10,10 +10,15 @@ public class Randomizer {
         return min + new Random().nextInt(max);
     }
 
+    public static double getRandomDouble(double min, double max) {
+        // TODO
+        return (double)getRandomInt((int)min, (int)max);
+    }
+
     /**
      * @return Factor in range [0, 1). It is simplest way to get close to range [0, 1]
      */
-    private static double getRandomFactor() {
+    public static double getRandomFactor() {
         return new Random().nextDouble();
     }
 

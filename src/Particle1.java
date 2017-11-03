@@ -10,6 +10,10 @@ public class Particle1 implements IParticle {
     private final int BORDER_TONE = 72;  // It's better for note to be lower than that
     private final int MAX_TONE = 96; // Midi note can't be higher than that
 
+    private final double INERTIA_COMPONENT = 1; // Tendency to save current velocity
+    private final double COGNITIVE_COMPONENT = 1; // Tendency to return to local best
+    private final double SOCIAL_COMPONENT = 1; // Tendency to return to global best
+
     private MyChord[] chords = new MyChord[CHORDS_NUMBER];
     private MyVector3[] velocities = new MyVector3[CHORDS_NUMBER];
     private double fitness;
@@ -18,13 +22,26 @@ public class Particle1 implements IParticle {
     private double bestFitness;
 
     private Particle1() {
-        // TODO: generate random chords
+        regenerate();
+    }
 
-        // TODO: generate random velocities
+    public void regenerate() {
+        int vecDeltaAbs = (MAX_TONE - MIN_TONE) / 2;
+
+        for(int i = 0; i < CHORDS_NUMBER; i++) {
+            chords[i] = new MyChord(MIN_TONE, MAX_TONE);
+            velocities[i] = new MyVector3(-vecDeltaAbs, vecDeltaAbs);
+        }
+
+        calculateFitness();
+
+        bestChords = chords.clone();
+        bestFitness = fitness;
     }
 
     @Override
     public double calculateFitness() {
+        fitness = 0;
         // TODO: fitness calculation
 
         return fitness;
@@ -41,12 +58,29 @@ public class Particle1 implements IParticle {
 
     @Override
     public void updateVelocity(IParticle gBest) {
-        // TODO: make method
+        Particle1 gBestParticle = (Particle1)gBest;
+
+        for(int i = 0; i < CHORDS_NUMBER; i++) {
+            MyVector3 component1 = velocities[i].mul(INERTIA_COMPONENT);
+            MyVector3 component2 = bestChords[i].sub(chords[i]).mul(COGNITIVE_COMPONENT * Randomizer.getRandomFactor()).toVector();
+            MyVector3 component3 = gBestParticle.getChord(i).sub(chords[i]).mul(SOCIAL_COMPONENT * Randomizer.getRandomFactor()).toVector();
+
+            velocities[i] = component1.add(component2).add(component3);
+        }
     }
 
     @Override
     public void updateParticle() {
-        // TODO: make method
+        for(int i = 0; i < CHORDS_NUMBER; i++) {
+            chords[i] = chords[i].add(velocities[i]);
+        }
+
+        calculateFitness();
+
+        if(fitness >= bestFitness) {
+            bestChords = chords.clone();
+            bestFitness = fitness;
+        }
     }
 
     public double getBestFitness() {
@@ -55,6 +89,10 @@ public class Particle1 implements IParticle {
 
     public MyChord[] getChords() {
         return chords;
+    }
+
+    public MyChord getChord(int ind) {
+        return chords[ind];
     }
 
 }
