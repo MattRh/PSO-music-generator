@@ -27,12 +27,12 @@ public class Main {
         midiWrapper.setChords(chordSequence.getChords());
         //midiWrapper.setMelody(melodySequence.getNotes());
 
-        System.out.println("Saving everything");
-        midiWrapper.doEverything();
-
         for(MyChord c : chordSequence.getChords()) {
             System.out.println(c.toString());
         }
+
+        System.out.println("Saving everything");
+        midiWrapper.doEverything();
     }
 
 }

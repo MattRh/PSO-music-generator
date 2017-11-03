@@ -48,7 +48,9 @@ public class MidiWrapper {
      * @throws IOException
      */
     public void doEverything() throws IOException {
-        //play();
+        composePattern();
+
+        play();
 
         //saveMidi();
         saveText();
@@ -103,13 +105,14 @@ public class MidiWrapper {
         int l = chords.length;
 
         for(MyChord chord : chords) {
-            res += chord.n1 + CHORDS_DURATION + "+" + chord.n2 + CHORDS_DURATION + "+" + chord.n3 + CHORDS_DURATION + " ";
+            res += "" + chord.n1 + CHORDS_DURATION + "+" + chord.n2 + CHORDS_DURATION + "+" + chord.n3 + CHORDS_DURATION + " ";
             if(i % BAR_LENGTH == 0 && i != 0 && i != l) {
                 res += "| ";
             }
             i++;
         }
 
+        System.out.println(res);
         return res;
     }
 
