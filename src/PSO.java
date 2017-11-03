@@ -4,7 +4,7 @@ import java.util.Random;
  * AI_music_generator
  * Created by Sergey on 2017-10-27
  */
-public class PSO<PT> {
+public class PSO<PT extends IParticle> {
 
     private final int POPULATION_SIZE = 16;
     private final int ITERATIONS = 10000;
@@ -19,7 +19,7 @@ public class PSO<PT> {
     private double bestFitness;
 
     PSO() {
-        population = (PT[]) new Object[POPULATION_SIZE];
+        population = (PT[])new Object[POPULATION_SIZE];
     }
 
     /**
@@ -31,7 +31,7 @@ public class PSO<PT> {
         globalBest = population[rnd];
 
         for(int i = 0; i < ITERATIONS; i++) {
-            // Update particles. Find new global best
+            // TODO: Update particles. Find new global best and save it
         }
 
         return globalBest;
@@ -39,15 +39,8 @@ public class PSO<PT> {
 
     private void generatePopulation() {
         for(int i = 0; i < POPULATION_SIZE; i++) {
-            population[i] = (PT) new Object();
+            population[i] = (PT)new Object();
         }
-    }
-
-    /**
-     * @return Factor in range [0, 1). It is simplest way to get close to range [0, 1]
-     */
-    private double getRandomFactor() {
-        return new Random().nextDouble();
     }
 
 }

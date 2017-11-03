@@ -11,6 +11,14 @@ public class Main {
         MidiWrapper midiWrapper = new MidiWrapper();
 
         PSO pso1 = new PSO<Particle1>();
+        Particle1 chordSequence = (Particle1)pso1.execute();
+
+        /*PSO pso2 = new PSO<Particle2>();
+        Particle2 melodySequence = (Particle2) pso2.execute();*/
+
+        midiWrapper.setChords(chordSequence.getChords());
+
+        midiWrapper.doEverything();
     }
 
 }

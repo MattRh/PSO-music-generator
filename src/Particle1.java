@@ -2,12 +2,12 @@
  * AI_music_generator
  * Created by Sergey on 2017-10-27
  */
-public class Particle1 {
+public class Particle1 implements IParticle {
 
     public final int CHORDS_NUMBER = 16;
 
-    private final int MIN_TONE = 42; // Midi note can't be lower than that
-    private final int BORDER_TONE = 76;  // It's better for note to be lower than that
+    private final int MIN_TONE = 48; // Midi note can't be lower than that
+    private final int BORDER_TONE = 72;  // It's better for note to be lower than that
     private final int MAX_TONE = 96; // Midi note can't be higher than that
 
     private MyChord[] chords = new MyChord[CHORDS_NUMBER];
@@ -23,6 +23,7 @@ public class Particle1 {
         // TODO: generate random velocities
     }
 
+    @Override
     public double calculateFitness() {
         // TODO: fitness calculation
 
@@ -33,8 +34,19 @@ public class Particle1 {
         this.velocities = velocities;
     }
 
+    @Override
     public double getFitness() {
         return fitness;
+    }
+
+    @Override
+    public void updateVelocity(IParticle gBest) {
+        // TODO
+    }
+
+    @Override
+    public void updateParticle() {
+        // TODO
     }
 
     public double getBestFitness() {

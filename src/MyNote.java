@@ -6,8 +6,8 @@ public class MyNote {
 
     public int number;
 
-    MyNote() {
-
+    MyNote(int minVal, int maxVal) {
+        number = Randomizer.getRandomInt(minVal, maxVal);
     }
 
 }

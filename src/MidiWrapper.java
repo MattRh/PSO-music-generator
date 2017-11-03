@@ -43,8 +43,14 @@ public class MidiWrapper {
         setParams(chords, melody);
     }
 
-    public void doEverything() {
-        // Empty for a while
+    /**
+     * Firstly plays music and then saves it to the midi file
+     * @throws IOException
+     */
+    public void doEverything() throws IOException {
+        play();
+
+        saveMidi();
     }
 
     public void setParams(MyChord[] chords, MyNote[] melody) {
