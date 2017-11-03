@@ -50,6 +50,16 @@ public class Particle1 implements IParticle {
     }
 
     @Override
+    public IParticle[] generatePopulation(int size) {
+        Particle1[] collection = new Particle1[size];
+        for(int i = 0; i < size; i++) {
+            collection[i] = new Particle1();
+        }
+
+        return collection;
+    }
+
+    @Override
     public double calculateFitness() {
         fitness = 0;
         // TODO: fitness calculation
@@ -72,29 +82,29 @@ public class Particle1 implements IParticle {
 
         for(int i = 0; i < CHORDS_NUMBER; i++) {
             MyVector3 component1 = velocities[i].mul(INERTIA_COMPONENT);
-            MyVector3 component2 = bestChords[i].sub(chords[i]).toVector().mul(COGNITIVE_COMPONENT * Randomizer.getRandomFactor());
-            MyVector3 component3 = gBestParticle.getChord(i).sub(chords[i]).toVector().mul(SOCIAL_COMPONENT * Randomizer.getRandomFactor());
+            MyVector3 component2 = bestChords[i].subMul(chords[i], COGNITIVE_COMPONENT * Randomizer.getRandomFactor());
+            MyVector3 component3 = gBestParticle.getChord(i).subMul(chords[i], SOCIAL_COMPONENT * Randomizer.getRandomFactor());
 
-            velocities[i] = component1.add(component2).add(component3);
+            velocities[i] = component1.add(component2, component3);
         }
     }
 
     @Override
     public void updateParticle() {
         for(int i = 0; i < CHORDS_NUMBER; i++) {
-            chords[i] = chords[i].add(velocities[i]);
+            chords[i].sumWith(velocities[i]);
         }
 
         calculateFitness();
 
-        if(fitness >= bestFitness) {
+        if(fitness > bestFitness) {
             bestChords = chords.clone();
             bestFitness = fitness;
         }
     }
 
     @Override
-    public IParticle clone() {
+    public IParticle cloneParticle() {
         return new Particle1(chords.clone(), velocities.clone(), fitness);
     }
 

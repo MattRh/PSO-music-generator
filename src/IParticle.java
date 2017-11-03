@@ -4,6 +4,8 @@
  */
 public interface IParticle {
 
+    public IParticle[] generatePopulation(int size);
+
     /**
      * Calculates and saves fitness
      *
@@ -32,6 +34,6 @@ public interface IParticle {
      * Clones current particle
      * @return Exact clone of current particle
      */
-    public IParticle clone();
+    public IParticle cloneParticle();
 
 }

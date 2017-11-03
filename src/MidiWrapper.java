@@ -48,9 +48,10 @@ public class MidiWrapper {
      * @throws IOException
      */
     public void doEverything() throws IOException {
-        play();
+        //play();
 
-        saveMidi();
+        //saveMidi();
+        saveText();
     }
 
     public void setParams(MyChord[] chords, MyNote[] melody) {

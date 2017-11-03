@@ -28,6 +28,10 @@ public class MyVector3 {
         return new MyVector3(x + other.x, y + other.y, z + other.z);
     }
 
+    public MyVector3 add(MyVector3 other1, MyVector3 other2) {
+        return new MyVector3(x + other1.x + other2.x, y + other1.y + other2.y, z + other1.z + other2.z);
+    }
+
     public MyVector3 mul(double factor) {
         return new MyVector3(x * factor, y * factor, z * factor);
     }

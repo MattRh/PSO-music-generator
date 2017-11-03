@@ -7,7 +7,7 @@ import java.util.Random;
 public class Randomizer {
 
     public static int getRandomInt(int min, int max) {
-        return min + new Random().nextInt(max);
+        return new Random().nextInt(max - min) + min;
     }
 
     public static double getRandomDouble(double min, double max) {
