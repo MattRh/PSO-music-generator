@@ -6,8 +6,8 @@ import java.util.Random;
  */
 public class PSO {
 
-    public static final int POPULATION_SIZE = 16;
-    private final int ITERATIONS = 0;
+    public static final int POPULATION_SIZE = 1;
+    private final int ITERATIONS = 10;
 
     private IParticle globalBest;
     private double bestFitness;
@@ -37,6 +37,8 @@ public class PSO {
                     // Small hack to search now only values that are larger than that
                     bestFitness = population[j].getFitness();
                 }
+
+                System.out.println(i + " () " + population[j]);
             }
 
             if(newBestIndex >= 0) {

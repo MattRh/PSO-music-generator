@@ -36,4 +36,8 @@ public class MyVector3 {
         return new MyVector3(x * factor, y * factor, z * factor);
     }
 
+    @Override
+    public String toString() {
+        return "(" + x + "; " + y + "; " + z + ")";
+    }
 }

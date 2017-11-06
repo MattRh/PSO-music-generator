@@ -10,9 +10,11 @@ public class Particle1 implements IParticle {
     private final int BORDER_TONE = 72;  // It's better for note to be lower than that
     private final int MAX_TONE = 96; // Midi note can't be higher than that
 
-    private final double INERTIA_COMPONENT = 1; // Tendency to save current velocity
-    private final double COGNITIVE_COMPONENT = 1; // Tendency to return to local best
-    private final double SOCIAL_COMPONENT = 1; // Tendency to return to global best
+    private final int MAX_START_ABS_VELOCITY = 3;
+
+    private final double INERTIA_COMPONENT = 0.6; // Tendency to save current velocity
+    private final double COGNITIVE_COMPONENT = 1.2; // Tendency to return to local best
+    private final double SOCIAL_COMPONENT = 0.2; // Tendency to return to global best
 
     private MyChord[] chords = new MyChord[CHORDS_NUMBER];
     private MyVector3[] velocities = new MyVector3[CHORDS_NUMBER];
@@ -36,7 +38,7 @@ public class Particle1 implements IParticle {
     }
 
     public void regenerate() {
-        int vecDeltaAbs = (MAX_TONE - MIN_TONE) / 2;
+        int vecDeltaAbs = MAX_START_ABS_VELOCITY;
 
         for(int i = 0; i < CHORDS_NUMBER; i++) {
             chords[i] = new MyChord(MIN_TONE, MAX_TONE);
@@ -62,9 +64,44 @@ public class Particle1 implements IParticle {
     @Override
     public double calculateFitness() {
         fitness = 0;
+        for(int i = 0; i < CHORDS_NUMBER; i++) {
+            MyChord c = chords[i];
+
+            int returnFactor = 0;
+            returnFactor += magic1(c.n1, MIN_TONE);
+            returnFactor += magic2(c.n1, MAX_TONE);
+            returnFactor += magic1(c.n2, MIN_TONE);
+            returnFactor += magic2(c.n2, MAX_TONE);
+            returnFactor += magic1(c.n3, MIN_TONE);
+            returnFactor += magic2(c.n3, MAX_TONE);
+
+            if(returnFactor > 0) {
+                fitness -= Math.pow(returnFactor, 10);
+            } else {
+                fitness += 12 - (c.n1 % 12);
+                fitness += 12 - ((c.n2 - 3) % 12);
+                fitness += 12 - ((c.n3 - 7) % 12);
+            }
+        }
         // TODO: fitness calculation
 
         return fitness;
+    }
+
+    public int magic1(int a1, int a2) {
+        if(a1 <= a2) {
+            return 1 + a2 - a1;
+        }
+
+        return 0;
+    }
+
+    public int magic2(int a1, int a2) {
+        if(a1 >= a2) {
+            return 1 + a1 - a2;
+        }
+
+        return 0;
     }
 
     public void setVelocities(MyVector3[] velocities) {
@@ -120,4 +157,14 @@ public class Particle1 implements IParticle {
         return chords[ind];
     }
 
+    @Override
+    public String toString() {
+        String res = Double.toString(fitness) + "\n";
+
+        for(int i = 0; i < CHORDS_NUMBER; i++) {
+            res += chords[i].toString() + " > " + velocities[i].toString() + "\n";
+        }
+
+        return res;
+    }
 }

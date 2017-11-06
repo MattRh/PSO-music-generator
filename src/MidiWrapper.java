@@ -99,38 +99,38 @@ public class MidiWrapper {
     }
 
     private String chordsToString() {
-        String res = "";
+        StringBuilder res = new StringBuilder();
 
         int i = 0;
         int l = chords.length;
 
         for(MyChord chord : chords) {
-            res += "" + chord.n1 + CHORDS_DURATION + "+" + chord.n2 + CHORDS_DURATION + "+" + chord.n3 + CHORDS_DURATION + " ";
-            if(i % BAR_LENGTH == 0 && i != 0 && i != l) {
-                res += "| ";
+            res.append(chord.n1).append(CHORDS_DURATION).append("+").append(chord.n2).append(CHORDS_DURATION).append("+").append(chord.n3).append(CHORDS_DURATION).append(" ");
+            if((i + 1) % BAR_LENGTH == 0 && i != 0 && i != l) {
+                res.append("| ");
             }
             i++;
         }
 
         System.out.println(res);
-        return res;
+        return res.toString();
     }
 
     private String melodyToString() {
-        String res = "";
+        StringBuilder res = new StringBuilder();
 
         int i = 0;
         int l = melody.length;
 
         for(MyNote note : melody) {
-            res += note.number + NOTE_DURATION + " ";
-            if(i % BAR_LENGTH / 2 == 0 && i != 0 && i != l) {
-                res += "| ";
+            res.append(note.number).append(NOTE_DURATION).append(" ");
+            if((i + 1) % BAR_LENGTH / 2 == 0 && i != 0 && i != l) {
+                res.append("| ");
             }
             i++;
         }
 
-        return res;
+        return res.toString();
     }
 
 }

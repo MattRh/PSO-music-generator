@@ -4,6 +4,7 @@
  */
 public class MyChord {
 
+    // TODO: convert notes from int to double
     public int n1, n2, n3;
 
     MyChord(int minVal, int maxVal) {
@@ -58,6 +59,6 @@ public class MyChord {
 
     @Override
     public String toString() {
-        return n1 + " " + n2 + " " + n3;
+        return "[" + n1 + " " + n2 + " " + n3 + "]";
     }
 }
