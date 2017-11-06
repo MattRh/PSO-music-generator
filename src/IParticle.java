@@ -28,7 +28,7 @@ public interface IParticle {
     /**
      * Calculates new particle state based on current velocity vector
      */
-    public void updateParticle();
+    public void updateParticle(IParticle gbest);
 
     /**
      * Clones current particle

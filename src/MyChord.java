@@ -35,10 +35,8 @@ public class MyChord {
         return new MyChord(n1 + (int)other.x, n2 + (int)other.y, n3 + (int)other.z);
     }
 
-    public void sumWith(MyVector3 other) {
-        n1 += (int)other.x;
-        n2 += (int)other.y;
-        n3 += (int)other.z;
+    public MyChord sumWith(MyVector3 other) {
+        return new MyChord(n1 + (int)other.x, n2 + (int)other.y, n3 + (int)other.z);
     }
 
     public MyChord sub(MyChord other) {

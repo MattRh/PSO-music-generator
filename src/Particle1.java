@@ -4,17 +4,17 @@
  */
 public class Particle1 implements IParticle {
 
-    public final int CHORDS_NUMBER = 16;
+    public final int CHORDS_NUMBER = 4;
 
     private final int MIN_TONE = 48; // Midi note can't be lower than that
     private final int BORDER_TONE = 72;  // It's better for note to be lower than that
-    private final int MAX_TONE = 96; // Midi note can't be higher than that
+    private final int MAX_TONE = BORDER_TONE;//96; // Midi note can't be higher than that
 
-    private final int MAX_START_ABS_VELOCITY = 3;
+    private final int MAX_START_ABS_VELOCITY = 5;
 
-    private final double INERTIA_COMPONENT = 0.6; // Tendency to save current velocity
+    private final double INERTIA_COMPONENT = 1; // Tendency to save current velocity
     private final double COGNITIVE_COMPONENT = 1.2; // Tendency to return to local best
-    private final double SOCIAL_COMPONENT = 0.2; // Tendency to return to global best
+    private final double SOCIAL_COMPONENT = 1.1; // Tendency to return to global best
 
     private MyChord[] chords = new MyChord[CHORDS_NUMBER];
     private MyVector3[] velocities = new MyVector3[CHORDS_NUMBER];
@@ -61,49 +61,6 @@ public class Particle1 implements IParticle {
         return collection;
     }
 
-    @Override
-    public double calculateFitness() {
-        fitness = 0;
-        for(int i = 0; i < CHORDS_NUMBER; i++) {
-            MyChord c = chords[i];
-
-            int returnFactor = 0;
-            returnFactor += magic1(c.n1, MIN_TONE);
-            returnFactor += magic2(c.n1, MAX_TONE);
-            returnFactor += magic1(c.n2, MIN_TONE);
-            returnFactor += magic2(c.n2, MAX_TONE);
-            returnFactor += magic1(c.n3, MIN_TONE);
-            returnFactor += magic2(c.n3, MAX_TONE);
-
-            if(returnFactor > 0) {
-                fitness -= Math.pow(returnFactor, 10);
-            } else {
-                fitness += 12 - (c.n1 % 12);
-                fitness += 12 - ((c.n2 - 3) % 12);
-                fitness += 12 - ((c.n3 - 7) % 12);
-            }
-        }
-        // TODO: fitness calculation
-
-        return fitness;
-    }
-
-    public int magic1(int a1, int a2) {
-        if(a1 <= a2) {
-            return 1 + a2 - a1;
-        }
-
-        return 0;
-    }
-
-    public int magic2(int a1, int a2) {
-        if(a1 >= a2) {
-            return 1 + a1 - a2;
-        }
-
-        return 0;
-    }
-
     public void setVelocities(MyVector3[] velocities) {
         this.velocities = velocities;
     }
@@ -115,7 +72,7 @@ public class Particle1 implements IParticle {
 
     @Override
     public void updateVelocity(IParticle gBest) {
-        Particle1 gBestParticle = (Particle1)gBest;
+        Particle1 gBestParticle = (Particle1)gBest.cloneParticle();
 
         for(int i = 0; i < CHORDS_NUMBER; i++) {
             MyVector3 component1 = velocities[i].mul(INERTIA_COMPONENT);
@@ -127,9 +84,9 @@ public class Particle1 implements IParticle {
     }
 
     @Override
-    public void updateParticle() {
+    public void updateParticle(IParticle gbest) {
         for(int i = 0; i < CHORDS_NUMBER; i++) {
-            chords[i].sumWith(velocities[i]);
+            chords[i] = chords[i].sumWith(velocities[i]);
         }
 
         calculateFitness();
@@ -166,5 +123,47 @@ public class Particle1 implements IParticle {
         }
 
         return res;
+    }
+
+    @Override
+    public double calculateFitness() {
+        fitness = 0;
+        for(int i = 0; i < CHORDS_NUMBER; i++) {
+            MyChord c = chords[i];
+
+            long returnFactor = getReturnFactor(c);
+
+            if(returnFactor > 0) {
+                //System.out.println("return" + returnFactor);
+                fitness -= Math.pow(returnFactor, 3);
+            }
+        }
+        // TODO: fitness calculation
+
+        return fitness;
+    }
+
+    public int getReturnFactor(MyChord c) {
+        int returnFactor = 0;
+        returnFactor += getLessOffset(c.n1, MIN_TONE);
+        returnFactor += getGreaterOffset(c.n1, MAX_TONE);
+
+        return returnFactor * 2;
+    }
+
+    public int getLessOffset(int a1, int a2) {
+        if(a1 < a2) {
+            return Math.abs(a1 - a2);
+        }
+
+        return 0;
+    }
+
+    public int getGreaterOffset(int a1, int a2) {
+        if(a1 > a2) {
+            return Math.abs(a1 - a2);
+        }
+
+        return 0;
     }
 }

@@ -39,7 +39,7 @@ public class Particle2 implements IParticle {
     }
 
     @Override
-    public void updateParticle() {
+    public void updateParticle(IParticle gb) {
         // TODO: fill the method
     }
 
