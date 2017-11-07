@@ -21,4 +21,8 @@ public class Randomizer {
         return new Random().nextDouble();
     }
 
+    public static boolean getRandomBoolean() {
+        return new Random().nextBoolean();
+    }
+
 }

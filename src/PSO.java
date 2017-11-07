@@ -4,7 +4,7 @@
  */
 public class PSO {
 
-    public static final int POPULATION_SIZE = 20;
+    public static final int POPULATION_SIZE = 16;
     private final int ITERATIONS = 5000;
 
     private IParticle globalBest;
@@ -20,7 +20,7 @@ public class PSO {
     public IParticle execute(IParticle[] population) {
         int newBestIndex = 0;
         for(int i = 1; i < POPULATION_SIZE; i++) {
-            if(population[i].getFitness() > population[newBestIndex].getFitness()) {
+            if(population[i].getFitness() < population[newBestIndex].getFitness()) {
                 newBestIndex = i;
             }
         }
@@ -34,16 +34,16 @@ public class PSO {
                 IParticle curParticle = population[j];
 
                 curParticle.updateVelocity(globalBest);
-                curParticle.updateParticle(globalBest);
+                curParticle.updateParticle();
 
-                if(curParticle.getFitness() > bestFitness) {
+                if(curParticle.getFitness() < bestFitness) {
                     newBestIndex = j;
 
                     // Small hack to search now only values that are larger than that
                     bestFitness = curParticle.getFitness();
                 }
 
-                //System.out.println(i + " () " + population[j]);
+                //System.out.println(i + " (" + j + ") " + population[j]);
             }
 
             if(newBestIndex >= 0) {
@@ -51,12 +51,21 @@ public class PSO {
                 // bestFitness is already updated
             }
 
-            System.out.println(i + " gbest " + globalBest.toString());
+            //System.out.println(i + " gbest " + globalBest.toString());
 
             if(i % (ITERATIONS / 10) == 0) {
                 System.out.println("- PSO step#" + i + " completed");
+                System.out.println(i + " gbest " + globalBest.toString());
+            }
+
+            if(bestFitness == 0) {
+                break;
             }
         }
+
+        /*for(IParticle p: population) {
+            System.out.println(p.toString());
+        }*/
 
         return globalBest;
     }

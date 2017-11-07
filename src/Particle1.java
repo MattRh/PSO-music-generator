@@ -1,20 +1,24 @@
+import static java.lang.Math.*;
+
 /**
  * AI_music_generator
  * Created by Sergey on 2017-10-27
  */
 public class Particle1 implements IParticle {
 
-    public final int CHORDS_NUMBER = 4;
+    public final int CHORDS_NUMBER = 16;
 
-    private final int MIN_TONE = 48; // Midi note can't be lower than that
+    public final int MIN_TONE = 48; // Midi note can't be lower than that
     private final int BORDER_TONE = 72;  // It's better for note to be lower than that
-    private final int MAX_TONE = BORDER_TONE;//96; // Midi note can't be higher than that
+    public final int MAX_TONE = BORDER_TONE;//96; // Midi note can't be higher than that
 
     private final int MAX_START_ABS_VELOCITY = 5;
 
-    private final double INERTIA_COMPONENT = 1; // Tendency to save current velocity
-    private final double COGNITIVE_COMPONENT = 1.2; // Tendency to return to local best
-    private final double SOCIAL_COMPONENT = 1.1; // Tendency to return to global best
+    private final double INERTIA_COMPONENT = 0.8; // Tendency to save current velocity
+    private final double COGNITIVE_COMPONENT = 1.9; // Tendency to return to local best
+    private final double SOCIAL_COMPONENT = 0.6; // Tendency to return to global best
+
+    private Tonality tone;
 
     private MyChord[] chords = new MyChord[CHORDS_NUMBER];
     private MyVector3[] velocities = new MyVector3[CHORDS_NUMBER];
@@ -23,11 +27,17 @@ public class Particle1 implements IParticle {
     private MyChord[] bestChords;
     private double bestFitness;
 
-    public Particle1() {
+    public Particle1() {}
+
+    public Particle1(Tonality tone) {
+        this.tone = tone;
+
         regenerate();
     }
 
-    public Particle1(MyChord[] chords, MyVector3[] velocities, double fitness) {
+    public Particle1(Tonality tone, MyChord[] chords, MyVector3[] velocities, double fitness) {
+        this.tone = tone;
+
         this.chords = chords;
         bestChords = chords;
 
@@ -53,9 +63,10 @@ public class Particle1 implements IParticle {
 
     @Override
     public IParticle[] generatePopulation(int size) {
+        Tonality generationTone = new Tonality();
         Particle1[] collection = new Particle1[size];
         for(int i = 0; i < size; i++) {
-            collection[i] = new Particle1();
+            collection[i] = new Particle1(generationTone);
         }
 
         return collection;
@@ -84,14 +95,14 @@ public class Particle1 implements IParticle {
     }
 
     @Override
-    public void updateParticle(IParticle gbest) {
+    public void updateParticle() {
         for(int i = 0; i < CHORDS_NUMBER; i++) {
             chords[i] = chords[i].sumWith(velocities[i]);
         }
 
         calculateFitness();
 
-        if(fitness > bestFitness) {
+        if(fitness < bestFitness) {
             bestChords = chords.clone();
             bestFitness = fitness;
         }
@@ -99,7 +110,7 @@ public class Particle1 implements IParticle {
 
     @Override
     public IParticle cloneParticle() {
-        return new Particle1(chords.clone(), velocities.clone(), fitness);
+        return new Particle1(tone, chords.clone(), velocities.clone(), fitness);
     }
 
     public double getBestFitness() {
@@ -128,17 +139,50 @@ public class Particle1 implements IParticle {
     @Override
     public double calculateFitness() {
         fitness = 0;
+
+        // General fitness calculation for each chord
         for(int i = 0; i < CHORDS_NUMBER; i++) {
-            MyChord c = chords[i];
+            MyChord chord = chords[i];
 
-            long returnFactor = getReturnFactor(c);
+            // If chord is out of range
+            long returnFactor = getReturnFactor(chord);
+            if(chord.n1 < MIN_TONE || chord.n1 > MAX_TONE) {
+                fitness += pow(returnFactor, 2);
+            }
 
-            if(returnFactor > 0) {
-                //System.out.println("return" + returnFactor);
-                fitness -= Math.pow(returnFactor, 3);
+            // Check for tonality
+        }
+
+        // Distance between 2 chords should be <= 12
+        for(int i = 0; i < CHORDS_NUMBER - 1; i++) {
+            MyChord chord = chords[i];
+            MyChord nextChord = chords[i + 1];
+
+            double delta = abs(floor(chord.n1) - floor(nextChord.n1));
+
+            if(delta > 12) {
+                fitness += pow(delta - 12, 2);
             }
         }
-        // TODO: fitness calculation
+
+        // There should not be more than 4 equal chords in a row
+        for(int i = 0; i < CHORDS_NUMBER - 4; i++) {
+            boolean chordsEqual = true;
+            MyChord curChord = chords[i];
+
+            for(int j = 1; j < 4; j++) {
+                MyChord compareChord = chords[i + j];
+
+                if(!curChord.equals(compareChord)) {
+                    chordsEqual = false;
+                    break;
+                }
+            }
+
+            if(chordsEqual) {
+                fitness += 10;
+            }
+        }
 
         return fitness;
     }
@@ -153,7 +197,7 @@ public class Particle1 implements IParticle {
 
     public int getLessOffset(int a1, int a2) {
         if(a1 < a2) {
-            return Math.abs(a1 - a2);
+            return abs(a1 - a2);
         }
 
         return 0;
@@ -161,7 +205,7 @@ public class Particle1 implements IParticle {
 
     public int getGreaterOffset(int a1, int a2) {
         if(a1 > a2) {
-            return Math.abs(a1 - a2);
+            return abs(a1 - a2);
         }
 
         return 0;

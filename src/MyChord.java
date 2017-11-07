@@ -1,3 +1,5 @@
+import static java.lang.Math.floor;
+
 /**
  * AI_music_generator
  * Created by Sergey on 2017-10-27
@@ -49,6 +51,10 @@ public class MyChord {
 
     public MyChord mul(double factor) {
         return new MyChord((int)(n1 * factor), (int)(n2 * factor), (int)(n3 * factor));
+    }
+
+    public boolean equals(MyChord other) {
+        return floor(n1) == floor(other.n1) && floor(n2) == floor(other.n2) && floor(n3) == floor(other.n3);
     }
 
     public MyVector3 toVector() {

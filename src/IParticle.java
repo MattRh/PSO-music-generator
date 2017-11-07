@@ -8,6 +8,7 @@ public interface IParticle {
 
     /**
      * Calculates and saves fitness
+     * Where 0 is the best fitness possible and as Math.abs(fitness) rises particle become worse
      *
      * @return New fitness
      */
@@ -28,7 +29,7 @@ public interface IParticle {
     /**
      * Calculates new particle state based on current velocity vector
      */
-    public void updateParticle(IParticle gbest);
+    public void updateParticle();
 
     /**
      * Clones current particle

@@ -50,7 +50,7 @@ public class MidiWrapper {
     public void doEverything() throws IOException {
         composePattern();
 
-        play();
+        //play();
 
         //saveMidi();
         saveText();
