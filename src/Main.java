@@ -37,6 +37,7 @@ public class Main {
 
         midiWrapper.composePattern();
         midiWrapper.play();
+        midiWrapper.saveMidi();
 
         //System.out.println("Saving everything");
         //midiWrapper.doEverything();

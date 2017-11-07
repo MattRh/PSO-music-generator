@@ -10,12 +10,12 @@ public class Particle1 implements IParticle {
     public final int CHORDS_NUMBER = 16;
 
     public final int MIN_TONE = 48; // Midi note can't be lower than that
-    private final int BORDER_TONE = 72;  // It's better for note to be lower than that
+    private final int BORDER_TONE = 76;  // It's better for note to be lower than that
     public final int MAX_TONE = BORDER_TONE;//96; // Midi note can't be higher than that
 
     private final int MAX_START_ABS_VELOCITY = 3;
 
-    public static double INERTIA_COMPONENT = 0.83; // Tendency to save current velocity
+    public static double INERTIA_COMPONENT = 0.825; // Tendency to save current velocity
     public static double COGNITIVE_COMPONENT = 2.32; // Tendency to return to local best
     public static double SOCIAL_COMPONENT = 0.735; // Tendency to return to global best
 
