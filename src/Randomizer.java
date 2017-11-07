@@ -18,7 +18,7 @@ public class Randomizer {
      * @return Factor in range [0, 1). It is simplest way to get close to range [0, 1]
      */
     public static double getRandomFactor() {
-        return new Random().nextDouble();
+        return Math.random();
     }
 
     public static boolean getRandomBoolean() {

@@ -12,7 +12,7 @@ public class Particle2 implements IParticle {
     }
 
     @Override
-    public IParticle[] generatePopulation(int size) {
+    public IParticle[] generatePopulation(int size, Tonality tone) {
         Particle2[] collection = new Particle2[size];
         for(int i = 0; i < size; i++) {
             collection[i] = new Particle2();

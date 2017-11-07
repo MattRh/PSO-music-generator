@@ -5,7 +5,7 @@
 public class PSO {
 
     public static final int POPULATION_SIZE = 16;
-    private final int ITERATIONS = 5000;
+    private final int ITERATIONS = 20000;
 
     private IParticle globalBest;
     private double bestFitness;
@@ -17,7 +17,7 @@ public class PSO {
     /**
      * @return Best particle
      */
-    public IParticle execute(IParticle[] population) {
+    public IParticle execute(IParticle[] population) throws Exception {
         int newBestIndex = 0;
         for(int i = 1; i < POPULATION_SIZE; i++) {
             if(population[i].getFitness() < population[newBestIndex].getFitness()) {
@@ -53,10 +53,10 @@ public class PSO {
 
             //System.out.println(i + " gbest " + globalBest.toString());
 
-            if(i % (ITERATIONS / 10) == 0) {
+            /*if(i % (ITERATIONS / 10) == 0) {
                 System.out.println("- PSO step#" + i + " completed");
                 System.out.println(i + " gbest " + globalBest.toString());
-            }
+            }*/
 
             if(bestFitness == 0) {
                 break;
@@ -70,5 +70,8 @@ public class PSO {
         return globalBest;
     }
 
+    public double getBestFitness() {
+        return bestFitness;
+    }
 }
 

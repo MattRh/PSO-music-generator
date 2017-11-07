@@ -1,21 +1,18 @@
-import static java.lang.Math.floor;
-
 /**
  * AI_music_generator
  * Created by Sergey on 2017-10-27
  */
 public class MyChord {
 
-    // TODO: convert notes from int to double
-    public int n1, n2, n3;
+    public double n1, n2, n3;
 
     MyChord(int minVal, int maxVal) {
-        n1 = Randomizer.getRandomInt(minVal, maxVal);
-        n2 = Randomizer.getRandomInt(minVal, maxVal);
-        n3 = Randomizer.getRandomInt(minVal, maxVal);
+        n1 = Randomizer.getRandomDouble(minVal, maxVal);
+        n2 = Randomizer.getRandomDouble(minVal, maxVal);
+        n3 = Randomizer.getRandomDouble(minVal, maxVal);
     }
 
-    MyChord(int n1, int n2, int n3) {
+    MyChord(double n1, double n2, double n3) {
         this.n1 = n1;
         this.n2 = n2;
         this.n3 = n3;
@@ -28,17 +25,17 @@ public class MyChord {
     }
 
     public void set(MyVector3 other) {
-        n1 = (int)other.x;
-        n2 = (int)other.y;
-        n3 = (int)other.z;
+        n1 = other.x;
+        n2 = other.y;
+        n3 = other.z;
     }
 
     public MyChord add(MyVector3 other) {
-        return new MyChord(n1 + (int)other.x, n2 + (int)other.y, n3 + (int)other.z);
+        return new MyChord(n1 + other.x, n2 + other.y, n3 + other.z);
     }
 
     public MyChord sumWith(MyVector3 other) {
-        return new MyChord(n1 + (int)other.x, n2 + (int)other.y, n3 + (int)other.z);
+        return new MyChord(n1 + other.x, n2 + other.y, n3 + other.z);
     }
 
     public MyChord sub(MyChord other) {
@@ -50,11 +47,11 @@ public class MyChord {
     }
 
     public MyChord mul(double factor) {
-        return new MyChord((int)(n1 * factor), (int)(n2 * factor), (int)(n3 * factor));
+        return new MyChord(n1 * factor, n2 * factor, n3 * factor);
     }
 
     public boolean equals(MyChord other) {
-        return floor(n1) == floor(other.n1) && floor(n2) == floor(other.n2) && floor(n3) == floor(other.n3);
+        return ((int)n1) == ((int)other.n1) && ((int)n2) == ((int)other.n2) && ((int)n3) == ((int)other.n3);
     }
 
     public MyVector3 toVector() {
@@ -63,6 +60,6 @@ public class MyChord {
 
     @Override
     public String toString() {
-        return "[" + n1 + " " + n2 + " " + n3 + "]";
+        return String.format("[%.2f %.2f %.2f]", n1, n2, n3);
     }
 }

@@ -4,7 +4,7 @@
  */
 public interface IParticle {
 
-    public IParticle[] generatePopulation(int size);
+    public IParticle[] generatePopulation(int size, Tonality tone) throws Exception;
 
     /**
      * Calculates and saves fitness
@@ -12,7 +12,7 @@ public interface IParticle {
      *
      * @return New fitness
      */
-    public double calculateFitness();
+    public double calculateFitness() throws Exception;
 
     /**
      * @return Current fitness
@@ -29,10 +29,11 @@ public interface IParticle {
     /**
      * Calculates new particle state based on current velocity vector
      */
-    public void updateParticle();
+    public void updateParticle() throws Exception;
 
     /**
      * Clones current particle
+     *
      * @return Exact clone of current particle
      */
     public IParticle cloneParticle();

@@ -45,14 +45,15 @@ public class MidiWrapper {
 
     /**
      * Firstly plays music and then saves it to the midi file
+     *
      * @throws IOException
      */
     public void doEverything() throws IOException {
         composePattern();
 
-        //play();
+        play();
 
-        //saveMidi();
+        saveMidi();
         saveText();
     }
 
@@ -69,7 +70,7 @@ public class MidiWrapper {
         this.melody = melody;
     }
 
-    private void composePattern() {
+    public void composePattern() {
         Pattern s1 = new Pattern(chordsToString()).setVoice(0);
         Pattern s2 = new Pattern(melodyToString()).setVoice(1);
 
@@ -105,7 +106,13 @@ public class MidiWrapper {
         int l = chords.length;
 
         for(MyChord chord : chords) {
-            res.append(chord.n1).append(CHORDS_DURATION).append("+").append(chord.n2).append(CHORDS_DURATION).append("+").append(chord.n3).append(CHORDS_DURATION).append(" ");
+            res.append((int)chord.n1)
+                    .append(CHORDS_DURATION).append("+")
+                    .append((int)chord.n2)
+                    .append(CHORDS_DURATION).append("+")
+                    .append((int)chord.n3)
+                    .append(CHORDS_DURATION).append(" ");
+
             if((i + 1) % BAR_LENGTH == 0 && i != 0 && i != l) {
                 res.append("| ");
             }

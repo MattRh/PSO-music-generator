@@ -1,3 +1,5 @@
+import static java.lang.Math.abs;
+
 /**
  * AI_music_generator
  * Created by Sergey on 2017-11-06
@@ -13,12 +15,20 @@ public class Tonality {
     // tone semitone tone tone semitone tone tone
     private int[] minorOffsets = new int[] {2, 1, 2, 2, 1, 2, 2};
 
+    private int sdOffset = 5;
+    private int dOffset = 7;
+
+    private int[] triadOffsets;
+
     Tonality() {
         isMajor = Randomizer.getRandomBoolean();
         tonic = Randomizer.getRandomInt(0, 11);
 
-        // Идея в том, чтобы сделать массив с расстоянием каждой ноты до ближайшей ноты в тональности
-        // и еще один массив, просто содержащий всю послдовательность тональности
+        if(isMajor) {
+            triadOffsets = new int[] {0, 4, 7};
+        } else {
+            triadOffsets = new int[] {0, 3, 7};
+        }
     }
 
     public boolean isMajor() {
@@ -29,4 +39,49 @@ public class Tonality {
         return !isMajor;
     }
 
+    public double checkChord(MyChord chord) {
+        double result = 0;
+
+        int note1 = (int)chord.n1;
+        int shiftedNote1 = note1 - tonic; // Like it is C
+
+        int tClosest = note1 - (shiftedNote1 % 12);
+        int sdClosest = tClosest + sdOffset;
+        int dClosest = tClosest + dOffset;
+
+        double tDiff = abs(tClosest - chord.n1);
+        double sdDiff = abs(sdClosest - chord.n1);
+        double dDiff = abs(dClosest - chord.n1);
+
+        double curDiff;
+        int ideal1, ideal2;
+
+        if(tDiff <= sdDiff && tDiff <= dDiff) {
+            curDiff = tDiff;
+
+            ideal1 = tClosest + triadOffsets[1];
+            ideal2 = tClosest + triadOffsets[2];
+        } else if(sdDiff <= dDiff) {
+            curDiff = sdDiff;
+
+            ideal1 = sdClosest + triadOffsets[1];
+            ideal2 = sdClosest + triadOffsets[2];
+        } else {
+            curDiff = dDiff;
+
+            ideal1 = dClosest + triadOffsets[1];
+            ideal2 = dClosest + triadOffsets[2];
+        }
+
+        result += curDiff; // Distance to tonic/sub-dominant/dominant
+        result += abs(ideal1 - chord.n2);
+        result += abs(ideal2 - chord.n3);
+
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "" + tonic + (isMajor ? "maj" : "min");
+    }
 }
