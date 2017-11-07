@@ -4,8 +4,8 @@
  */
 public class PSO {
 
-    public static final int POPULATION_SIZE = 16;
-    private final int ITERATIONS = 20000;
+    public static final int POPULATION_SIZE = 64;
+    private final int ITERATIONS = 50000;
 
     private IParticle globalBest;
     private double bestFitness;
@@ -53,10 +53,10 @@ public class PSO {
 
             //System.out.println(i + " gbest " + globalBest.toString());
 
-            /*if(i % (ITERATIONS / 10) == 0) {
+            if(i % (ITERATIONS / 10) == 0) {
                 System.out.println("- PSO step#" + i + " completed");
                 System.out.println(i + " gbest " + globalBest.toString());
-            }*/
+            }
 
             if(bestFitness == 0) {
                 break;

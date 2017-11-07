@@ -106,11 +106,11 @@ public class MidiWrapper {
         int l = chords.length;
 
         for(MyChord chord : chords) {
-            res.append((int)chord.n1)
+            res.append(Math.round(chord.n1))
                     .append(CHORDS_DURATION).append("+")
-                    .append((int)chord.n2)
+                    .append(Math.round(chord.n2))
                     .append(CHORDS_DURATION).append("+")
-                    .append((int)chord.n3)
+                    .append(Math.round(chord.n3))
                     .append(CHORDS_DURATION).append(" ");
 
             if((i + 1) % BAR_LENGTH == 0 && i != 0 && i != l) {
