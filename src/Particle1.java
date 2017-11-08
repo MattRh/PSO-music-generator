@@ -9,8 +9,8 @@ public class Particle1 implements IParticle {
 
     public final int CHORDS_NUMBER = 16;
 
+    private final int BORDER_TONE = 72;  // It's better for note to be lower than that
     public final int MIN_TONE = 48; // Midi note can't be lower than that
-    private final int BORDER_TONE = 76;  // It's better for note to be lower than that
     public final int MAX_TONE = BORDER_TONE;//96; // Midi note can't be higher than that
 
     private final int MAX_START_ABS_VELOCITY = 3;
@@ -71,10 +71,6 @@ public class Particle1 implements IParticle {
         }
 
         return collection;
-    }
-
-    public void setVelocities(MyVector3[] velocities) {
-        this.velocities = velocities;
     }
 
     @Override

@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -11,13 +12,21 @@ public class Main {
     public static void main(String[] args) throws Exception {
         //findBestFactors();
 
-        MidiWrapper midiWrapper = new MidiWrapper();
-
         Tonality tonality = new Tonality();
         System.out.println(tonality.toString());
 
+        Particle1 chordSequence = find1(tonality);
+
+        System.out.println();
+
+        Particle2 melodySequence = find2(tonality);
+
+        midiFunc(chordSequence, melodySequence);
+    }
+
+    public static Particle1 find1(Tonality tone) throws Exception {
         PSO pso1 = new PSO();
-        IParticle[] population1 = new Particle1().generatePopulation(PSO.POPULATION_SIZE, tonality);
+        IParticle[] population1 = new Particle1().generatePopulation(PSO.POPULATION_SIZE, tone);
 
         System.out.println("Start PSO#1");
         long startTime = System.nanoTime();
@@ -25,15 +34,31 @@ public class Main {
         double runTime = (double)(System.nanoTime() - startTime);
         System.out.println("End PSO#1. Run for " + runTime / (1000 * 1000 * 1000) + "s");
 
-        // TODO: make generation of melody
-//        PSO pso2 = new PSO<Particle2>();
-//        Particle2 melodySequence = (Particle2) pso2.execute();
+        return chordSequence;
+    }
 
+    public static Particle2 find2(Tonality tone) throws Exception {
+        PSO pso2 = new PSO();
+        IParticle[] population2 = new Particle2().generatePopulation(PSO.POPULATION_SIZE, tone);
+
+        System.out.println("Start PSO#2");
+        long startTime = System.nanoTime();
+        Particle2 noteSequence = (Particle2)pso2.execute(population2);
+        double runTime = (double)(System.nanoTime() - startTime);
+        System.out.println("End PSO#2. Run for " + runTime / (1000 * 1000 * 1000) + "s");
+
+        return noteSequence;
+    }
+
+    public static void midiFunc(Particle1 chords, Particle2 notes) throws IOException {
         System.out.println("Setting MidiWrapper");
-        midiWrapper.setChords(chordSequence.getChords());
-        //midiWrapper.setMelody(melodySequence.getNotes());
+        MidiWrapper midiWrapper = new MidiWrapper();
 
-        System.out.println(chordSequence.toString());
+        midiWrapper.setChords(chords.getChords());
+        midiWrapper.setMelody(notes.getNotes());
+
+        System.out.println(chords.toString());
+        System.out.println(notes.toString());
 
         midiWrapper.composePattern();
         midiWrapper.play();

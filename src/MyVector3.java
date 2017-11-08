@@ -18,12 +18,6 @@ public class MyVector3 {
         this.z = z;
     }
 
-    public void set(MyVector3 other) {
-        x = other.x;
-        y = other.y;
-        z = other.z;
-    }
-
     public MyVector3 add(MyVector3 other) {
         return new MyVector3(x + other.x, y + other.y, z + other.z);
     }
@@ -38,6 +32,6 @@ public class MyVector3 {
 
     @Override
     public String toString() {
-        return String.format("(%.2f; %.2f; %.2f)", x, y, z);
+        return String.format("(%6.2f; %6.2f; %6.2f)", x, y, z);
     }
 }

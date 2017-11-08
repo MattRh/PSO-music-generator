@@ -18,18 +18,6 @@ public class MyChord {
         this.n3 = n3;
     }
 
-    public void set(MyChord other) {
-        n1 = other.n1;
-        n2 = other.n2;
-        n3 = other.n3;
-    }
-
-    public void set(MyVector3 other) {
-        n1 = other.x;
-        n2 = other.y;
-        n3 = other.z;
-    }
-
     public MyChord add(MyVector3 other) {
         return new MyChord(n1 + other.x, n2 + other.y, n3 + other.z);
     }
