@@ -142,7 +142,7 @@ public class Particle1 implements IParticle {
 
             // If chord is out of range
             if(chord.n1 < MIN_TONE || chord.n1 > MAX_TONE) {
-                fitness += pow(getReturnFactor(chord), 2);
+                fitness += pow(getReturnFactor(chord) * 2, 2) * 4;
             }
 
             fitness += tone.checkChord(chord);
@@ -156,7 +156,7 @@ public class Particle1 implements IParticle {
             double delta = abs(((int)chord.n1) - ((int)nextChord.n1));
 
             if(delta > 12) {
-                fitness += pow((abs(chord.n1 - nextChord.n1) - 12) * 2, 2);
+                fitness += pow((abs(chord.n1 - nextChord.n1) - 12), 2) * 2;
             }
         }
 
@@ -175,7 +175,7 @@ public class Particle1 implements IParticle {
             }
 
             if(chordsEqual) {
-                fitness += 100;
+                fitness += 200;
             }
         }
 

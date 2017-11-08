@@ -7,7 +7,7 @@ public class PSO {
     public static int POPULATION_SIZE = 64;
     private int ITERATIONS = 250000;
 
-    private final double PRECISION = 0.1;
+    private final double PRECISION = 0.45;
 
     private IParticle globalBest;
     private double bestFitness;
@@ -60,10 +60,10 @@ public class PSO {
 
             //System.out.println(i + " gbest " + globalBest.toString());
 
-            if(i % (ITERATIONS / 10) == 0) {
+            /*if(i % (ITERATIONS / 10) == 0) {
                 System.out.println("- PSO step#" + i + "/" + ITERATIONS + " completed");
                 System.out.println(i + " gbest " + globalBest.toString());
-            }
+            }*/
 
             if(bestFitness <= PRECISION) {
                 System.out.println("!!!Solution found!!! (step: " + i + ")");

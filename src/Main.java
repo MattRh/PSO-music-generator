@@ -58,19 +58,19 @@ public class Main {
         midiWrapper.setChords(chords.getChords());
         midiWrapper.setMelody(notes.getNotes());
 
-        System.out.println(chords.toString());
-        System.out.println(notes.toString());
+        /*System.out.println(chords.toString());
+        System.out.println(notes.toString());*/
 
         midiWrapper.composePattern();
 
         System.out.println(midiWrapper.toString());
 
-        midiWrapper.play();
+        /*midiWrapper.play();
         midiWrapper.saveMidi();
-        midiWrapper.saveText();
+        midiWrapper.saveText();*/
 
-        //System.out.println("Saving everything");
-        //midiWrapper.doEverything();
+        System.out.println("Saving everything");
+        midiWrapper.doEverything();
     }
 
     private static void findBestFactors() throws Exception {
