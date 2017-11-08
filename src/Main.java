@@ -13,13 +13,13 @@ public class Main {
         //findBestFactors();
 
         Tonality tonality = new Tonality();
-        System.out.println(tonality.toString());
+        System.out.println("Tonality: " + tonality.toString() + "\n");
 
         Particle1 chordSequence = find1(tonality);
-
         System.out.println();
 
-        Particle2 melodySequence = find2(tonality);
+        Particle2 melodySequence = find2(tonality, chordSequence);
+        System.out.println();
 
         midiFunc(chordSequence, melodySequence);
     }
@@ -37,9 +37,9 @@ public class Main {
         return chordSequence;
     }
 
-    public static Particle2 find2(Tonality tone) throws Exception {
+    public static Particle2 find2(Tonality tone, Particle1 chords) throws Exception {
         PSO pso2 = new PSO();
-        IParticle[] population2 = new Particle2().generatePopulation(PSO.POPULATION_SIZE, tone);
+        IParticle[] population2 = new Particle2().generatePopulation(PSO.POPULATION_SIZE, tone, chords.getChords());
 
         System.out.println("Start PSO#2");
         long startTime = System.nanoTime();
@@ -61,8 +61,12 @@ public class Main {
         System.out.println(notes.toString());
 
         midiWrapper.composePattern();
+
+        System.out.println(midiWrapper.toString());
+
         midiWrapper.play();
         midiWrapper.saveMidi();
+        midiWrapper.saveText();
 
         //System.out.println("Saving everything");
         //midiWrapper.doEverything();

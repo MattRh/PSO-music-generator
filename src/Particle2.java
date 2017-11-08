@@ -3,7 +3,6 @@
  * Created by Sergey on 2017-11-03
  */
 
-// TODO: fill the class
 public class Particle2 implements IParticle {
 
     public final int NOTES_NUMBER = 16;
@@ -19,6 +18,7 @@ public class Particle2 implements IParticle {
     public static double SOCIAL_COMPONENT = 0.735; // Tendency to return to global best
 
     private Tonality tone;
+    private MyChord[] chords;
 
     private MyNote[] notes = new MyNote[NOTES_NUMBER];
     private MyVector1[] velocities = new MyVector1[NOTES_NUMBER];
@@ -31,8 +31,9 @@ public class Particle2 implements IParticle {
 
     }
 
-    public Particle2(Tonality tone) throws Exception {
+    public Particle2(Tonality tone, MyChord[] chords) throws Exception {
         this.tone = tone;
+        this.chords = chords;
 
         regenerate();
     }
@@ -51,7 +52,7 @@ public class Particle2 implements IParticle {
         bestFitness = fitness;
     }
 
-    public Particle2(Tonality tone, MyNote[] notes, MyVector1[] velocities, double fitness) {
+    public Particle2(Tonality tone, MyNote[] notes, MyVector1[] velocities, double fitness, MyChord[] chords) {
         this.tone = tone;
 
         this.notes = notes;
@@ -61,13 +62,14 @@ public class Particle2 implements IParticle {
 
         this.fitness = fitness;
         bestFitness = fitness;
+
+        this.chords = chords;
     }
 
-    @Override
-    public IParticle[] generatePopulation(int size, Tonality tone) throws Exception {
+    public IParticle[] generatePopulation(int size, Tonality tone, MyChord[] chords) throws Exception {
         Particle2[] collection = new Particle2[size];
         for(int i = 0; i < size; i++) {
-            collection[i] = new Particle2(tone);
+            collection[i] = new Particle2(tone, chords);
         }
 
         return collection;
@@ -119,7 +121,7 @@ public class Particle2 implements IParticle {
 
     @Override
     public IParticle cloneParticle() {
-        return new Particle2(tone, notes.clone(), velocities.clone(), fitness);
+        return new Particle2(tone, notes.clone(), velocities.clone(), fitness, chords);
     }
 
     @Override

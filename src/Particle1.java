@@ -62,7 +62,6 @@ public class Particle1 implements IParticle {
         bestFitness = fitness;
     }
 
-    @Override
     public IParticle[] generatePopulation(int size, Tonality tone) throws Exception {
         this.tone = tone;
         Particle1[] collection = new Particle1[size];

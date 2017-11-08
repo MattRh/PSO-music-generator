@@ -4,8 +4,6 @@
  */
 public interface IParticle {
 
-    public IParticle[] generatePopulation(int size, Tonality tone) throws Exception;
-
     /**
      * Calculates and saves fitness
      * Where 0 is the best fitness possible and as Math.abs(fitness) rises particle become worse

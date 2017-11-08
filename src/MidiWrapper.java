@@ -119,7 +119,6 @@ public class MidiWrapper {
             i++;
         }
 
-        System.out.println(res);
         return res.toString();
     }
 
@@ -130,7 +129,8 @@ public class MidiWrapper {
         int l = melody.length;
 
         for(MyNote note : melody) {
-            res.append(note.number).append(NOTE_DURATION).append(" ");
+            res.append(Math.round(note.number)).append(NOTE_DURATION).append(" ");
+
             if((i + 1) % BAR_LENGTH / 2 == 0 && i != 0 && i != l) {
                 res.append("| ");
             }

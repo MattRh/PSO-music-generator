@@ -56,12 +56,12 @@ public class PSO {
             //System.out.println(i + " gbest " + globalBest.toString());
 
             if(i % (ITERATIONS / 10) == 0) {
-                System.out.println("- PSO step#" + i + " completed");
+                System.out.println("- PSO step#" + i + "/" + ITERATIONS + " completed");
                 System.out.println(i + " gbest " + globalBest.toString());
             }
 
             if(bestFitness <= PRECISION) {
-                System.out.println("!!!Solution found!!!");
+                System.out.println("!!!Solution found!!! (step: " + i + ")");
                 break;
             }
         }
