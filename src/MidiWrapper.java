@@ -51,10 +51,10 @@ public class MidiWrapper {
     public void doEverything() throws IOException {
         composePattern();
 
-        play();
-
-        saveMidi();
         saveText();
+        saveMidi();
+
+        play();
     }
 
     public void setParams(MyChord[] chords, MyNote[] melody) {
