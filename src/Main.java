@@ -15,10 +15,11 @@ public class Main {
         Tonality tonality = new Tonality();
         System.out.println("Tonality: " + tonality.toString() + "\n");
 
+        //Particle1 chordSequence = null;
         Particle1 chordSequence = find1(tonality);
         System.out.println();
 
-        Particle2 melodySequence = find2(tonality, chordSequence);
+        Particle2 melodySequence = find2(tonality);
         System.out.println();
 
         midiFunc(chordSequence, melodySequence);
@@ -37,9 +38,9 @@ public class Main {
         return chordSequence;
     }
 
-    public static Particle2 find2(Tonality tone, Particle1 chords) throws Exception {
+    public static Particle2 find2(Tonality tone) throws Exception {
         PSO pso2 = new PSO();
-        IParticle[] population2 = new Particle2().generatePopulation(PSO.POPULATION_SIZE, tone, chords.getChords());
+        IParticle[] population2 = new Particle2().generatePopulation(PSO.POPULATION_SIZE, tone);
 
         System.out.println("Start PSO#2");
         long startTime = System.nanoTime();
@@ -77,25 +78,26 @@ public class Main {
 
         double fitnessSum;
         double step = 0.2;
-        int trials = 14;
+        int trials = 8;
         int counter = 0;
 
-        for(double i = 0.6; i <= 1; i += step / 2, counter++) {
+        for(double i = 0.0; i <= 1; i += step, counter++) {
             for(double j = 0.2; j < 2.6; j += step, counter++) {
                 for(double k = 0.2; k < 2.6; k += step, counter++) {
                     fitnessSum = 0;
                     for(int l = 0; l < trials; l++) {
                         Tonality tonality = new Tonality();
-                        PSO pso = new PSO();
+                        PSO pso = new PSO(16, 10000);
 
                         Particle1.INERTIA_COMPONENT = i;
                         Particle1.COGNITIVE_COMPONENT = j;
                         Particle1.SOCIAL_COMPONENT = k;
 
-                        IParticle[] population1 = new Particle1().generatePopulation(PSO.POPULATION_SIZE, tonality);
-                        pso.execute(population1);
+                        IParticle[] population = new Particle2().generatePopulation(PSO.POPULATION_SIZE, tonality);
+                        pso.execute(population);
 
                         fitnessSum += pso.getBestFitness();
+                        //System.out.println(pso.getBestFitness());
                     }
 
                     results.add(new Double[] {

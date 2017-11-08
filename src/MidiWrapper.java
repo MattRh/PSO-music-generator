@@ -14,8 +14,8 @@ import java.io.IOException;
 public class MidiWrapper {
 
     private final int TEMPO = 120;
-    private final char CHORDS_DURATION = 'q';
-    private final char NOTE_DURATION = 'h';
+    private final char CHORDS_DURATION = 'h';
+    private final char NOTE_DURATION = 'q';
     private final int BAR_LENGTH = 4;
 
     private final String midiOutput = "output.mid";
@@ -131,7 +131,7 @@ public class MidiWrapper {
         for(MyNote note : melody) {
             res.append(Math.round(note.number)).append(NOTE_DURATION).append(" ");
 
-            if((i + 1) % BAR_LENGTH / 2 == 0 && i != 0 && i != l) {
+            if((i + 1) % (BAR_LENGTH * 2) == 0 && i != 0 && i != l) {
                 res.append("| ");
             }
             i++;

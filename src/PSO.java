@@ -4,8 +4,8 @@
  */
 public class PSO {
 
-    public static final int POPULATION_SIZE = 64;
-    private final int ITERATIONS = 250000;
+    public static int POPULATION_SIZE = 64;
+    private int ITERATIONS = 250000;
 
     private final double PRECISION = 0.1;
 
@@ -14,6 +14,11 @@ public class PSO {
 
     PSO() {
 
+    }
+
+    PSO(int popSize, int iterCount) {
+        POPULATION_SIZE = popSize;
+        ITERATIONS = iterCount;
     }
 
     /**

@@ -1,4 +1,5 @@
 import static java.lang.Math.abs;
+import static java.lang.Math.min;
 
 /**
  * AI_music_generator
@@ -78,6 +79,28 @@ public class Tonality {
         result += abs(ideal2 - chord.n3);
 
         return result;
+    }
+
+    public double checkNote(MyNote note) {
+        double result = 0;
+
+        int intNote = (int)note.number;
+
+        int tClosest = intNote - ((intNote - tonic) % 12);
+        int sdClosest = tClosest + sdOffset;
+        int dClosest = tClosest + dOffset;
+
+        double tDiff = abs(tClosest - note.number);
+        double sdDiff = abs(sdClosest - note.number);
+        double dDiff = abs(dClosest - note.number);
+
+        result += min3(tDiff, sdDiff, dDiff);
+
+        return result;
+    }
+
+    private double min3(double a, double b, double c) {
+        return min(min(a, b), c);
     }
 
     @Override
