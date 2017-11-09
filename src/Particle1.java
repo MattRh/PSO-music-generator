@@ -12,12 +12,12 @@ public class Particle1 implements IParticle {
     public final int MIN_TONE = 48; // Midi note can't be lower than that
     public final int MAX_TONE = 84; // Midi note can't be higher than that
 
-    private final double MAX_START_ABS_VELOCITY = 3;
+    private final double MAX_START_ABS_VELOCITY = 3.5;
     private final double MAX_ABS_VELOCITY = 10;
 
     public static double INERTIA_COMPONENT = 0.825; // Tendency to save current velocity
     public static double COGNITIVE_COMPONENT = 2.32; // Tendency to return to local best
-    public static double SOCIAL_COMPONENT = 0.635; // Tendency to return to global best
+    public static double SOCIAL_COMPONENT = 0.735; // Tendency to return to global best
 
     private Tonality tone;
 
@@ -162,11 +162,11 @@ public class Particle1 implements IParticle {
         }
 
         // There should not be more than 4 equal chords in a row
-        for(int i = 0; i < CHORDS_NUMBER - 4; i++) {
+        for(int i = 0; i < CHORDS_NUMBER - 3; i++) {
             boolean chordsEqual = true;
             MyChord curChord = chords[i];
 
-            for(int j = 1; j < 4; j++) {
+            for(int j = 1; j < 3; j++) {
                 MyChord compareChord = chords[i + j];
 
                 if(!curChord.equals(compareChord)) {

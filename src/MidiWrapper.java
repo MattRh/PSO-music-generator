@@ -18,8 +18,8 @@ public class MidiWrapper {
     private final int EIGHTH_LENGTH = 'i';
 
     private final int TEMPO = 120;
-    private final char CHORDS_DURATION = QUARTER_LENGTH;
-    private final char NOTE_DURATION = EIGHTH_LENGTH;
+    private final char CHORDS_DURATION = HALF_LENGTH;
+    private final char NOTE_DURATION = QUARTER_LENGTH;
     private final int BAR_LENGTH = 4;
 
     private final String midiOutput = "output.mid";

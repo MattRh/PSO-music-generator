@@ -13,7 +13,7 @@ public class Particle2 implements IParticle {
     public final int MIN_TONE = 60; // Midi note can't be lower than that
     public final int MAX_TONE = 96; // Midi note can't be higher than that
 
-    private final double MAX_START_ABS_VELOCITY = 3;
+    private final double MAX_START_ABS_VELOCITY = 3.5;
     private final double MAX_ABS_VELOCITY = 10;
 
     public static double INERTIA_COMPONENT = 0.8; // Tendency to save current velocity

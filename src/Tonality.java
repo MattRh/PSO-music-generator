@@ -87,8 +87,8 @@ public class Tonality {
         int intNote = (int)note.number;
 
         int tClosest = intNote - ((intNote - tonic) % 12);
-        int sdClosest = tClosest + sdOffset;
-        int dClosest = tClosest + dOffset;
+        int sdClosest = tClosest + triadOffsets[1];
+        int dClosest = tClosest + triadOffsets[2];
 
         double tDiff = abs(tClosest - note.number);
         double sdDiff = abs(sdClosest - note.number);
