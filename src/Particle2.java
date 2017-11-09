@@ -144,13 +144,20 @@ public class Particle2 implements IParticle {
         // General fitness calculation for each note
         for(int i = 0; i < NOTES_NUMBER; i++) {
             MyNote note = notes[i];
+            MyChord chord = chords[i / 2];
 
             // If chord is out of range
             if(note.number < MIN_TONE || note.number > MAX_TONE) {
                 fitness += pow(getReturnFactor(note) * 2, 2) * 4;
             }
 
-            fitness += tone.checkNote(note);
+            // Melody have to be greater than chords
+            if((chord.n1 + 12) >= note.number) {
+                fitness += pow((chord.n1 + 12) - note.number, 2);
+            }
+
+            // Note have to fit to chord
+            fitness += tone.checkNote(note, chord);
         }
 
         // Distance between 2 notes should be <= 12
@@ -162,16 +169,6 @@ public class Particle2 implements IParticle {
 
             if(delta > 12) {
                 fitness += pow((abs(note.number - nextNote.number) - 12), 2) * 2;
-            }
-        }
-
-        // Melody have to be greater than chords
-        for(int i = 0; i < NOTES_NUMBER; i++) {
-            MyChord curChord = chords[i / 2];
-            MyNote curNote = notes[i];
-
-            if((curChord.n1 + 12) >= curNote.number) {
-                fitness += pow((curChord.n1 + 12) - curNote.number, 2);
             }
         }
 

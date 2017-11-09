@@ -1,5 +1,6 @@
 import static java.lang.Math.abs;
 import static java.lang.Math.min;
+import static java.lang.Math.round;
 
 /**
  * AI_music_generator
@@ -81,12 +82,10 @@ public class Tonality {
         return result;
     }
 
-    public double checkNote(MyNote note) {
-        double result = 0;
-
+    public double checkNote(MyNote note, MyChord chord) {
         int intNote = (int)note.number;
 
-        int tClosest = intNote - ((intNote - tonic) % 12);
+        int tClosest = intNote - ((intNote - tonic) % 12) + ((int)(round(chord.n1) - tonic) % 12);
         int sdClosest = tClosest + triadOffsets[1];
         int dClosest = tClosest + triadOffsets[2];
 
@@ -94,9 +93,7 @@ public class Tonality {
         double sdDiff = abs(sdClosest - note.number);
         double dDiff = abs(dClosest - note.number);
 
-        result += min3(tDiff, sdDiff, dDiff);
-
-        return result;
+        return min3(tDiff, sdDiff, dDiff);
     }
 
     private double min3(double a, double b, double c) {
