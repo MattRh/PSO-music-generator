@@ -11,7 +11,7 @@ public class Particle1 implements IParticle {
 
     private final int BORDER_TONE = 72;  // It's better for note to be lower than that
     public final int MIN_TONE = 48; // Midi note can't be lower than that
-    public final int MAX_TONE = BORDER_TONE;//96; // Midi note can't be higher than that
+    public final int MAX_TONE = 84; // Midi note can't be higher than that
 
     private final int MAX_START_ABS_VELOCITY = 3;
 

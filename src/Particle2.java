@@ -11,7 +11,7 @@ public class Particle2 implements IParticle {
     public final int NOTES_NUMBER = 32;
 
     private final int BORDER_TONE = 72;  // It's better for note to be lower than that
-    public final int MIN_TONE = BORDER_TONE;//48; // Midi note can't be lower than that
+    public final int MIN_TONE = 60; // Midi note can't be lower than that
     public final int MAX_TONE = 96; // Midi note can't be higher than that
 
     private final int MAX_START_ABS_VELOCITY = 3;
@@ -21,6 +21,7 @@ public class Particle2 implements IParticle {
     public static double SOCIAL_COMPONENT = 0.735; // Tendency to return to global best
 
     private Tonality tone;
+    private MyChord[] chords;
 
     private MyNote[] notes = new MyNote[NOTES_NUMBER];
     private MyVector1[] velocities = new MyVector1[NOTES_NUMBER];
@@ -33,8 +34,9 @@ public class Particle2 implements IParticle {
 
     }
 
-    public Particle2(Tonality tone) throws Exception {
+    public Particle2(Tonality tone, MyChord[] chords) throws Exception {
         this.tone = tone;
+        this.chords = chords;
 
         regenerate();
     }
@@ -65,10 +67,10 @@ public class Particle2 implements IParticle {
         bestFitness = fitness;
     }
 
-    public IParticle[] generatePopulation(int size, Tonality tone) throws Exception {
+    public IParticle[] generatePopulation(int size, Tonality tone, MyChord[] chords) throws Exception {
         Particle2[] collection = new Particle2[size];
         for(int i = 0; i < size; i++) {
-            collection[i] = new Particle2(tone);
+            collection[i] = new Particle2(tone, chords);
         }
 
         return collection;
@@ -159,6 +161,16 @@ public class Particle2 implements IParticle {
 
             if(delta > 12) {
                 fitness += pow((abs(note.number - nextNote.number) - 12), 2) * 2;
+            }
+        }
+
+        // Melody have to be greater than chords
+        for(int i = 0; i < NOTES_NUMBER; i++) {
+            MyChord curChord = chords[i / 2];
+            MyNote curNote = notes[i];
+
+            if((curChord.n1 + 12) >= curNote.number) {
+                fitness += pow((curChord.n1 + 12) - curNote.number, 2);
             }
         }
 
