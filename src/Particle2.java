@@ -14,7 +14,8 @@ public class Particle2 implements IParticle {
     public final int MIN_TONE = 60; // Midi note can't be lower than that
     public final int MAX_TONE = 96; // Midi note can't be higher than that
 
-    private final int MAX_START_ABS_VELOCITY = 3;
+    private final double MAX_START_ABS_VELOCITY = 3;
+    private final double MAX_ABS_VELOCITY = 10;
 
     public static double INERTIA_COMPONENT = 0.8; // Tendency to save current velocity
     public static double COGNITIVE_COMPONENT = 2.32; // Tendency to return to local best
@@ -42,7 +43,7 @@ public class Particle2 implements IParticle {
     }
 
     public void regenerate() throws Exception {
-        int vecDeltaAbs = MAX_START_ABS_VELOCITY;
+        double vecDeltaAbs = MAX_START_ABS_VELOCITY;
 
         for(int i = 0; i < NOTES_NUMBER; i++) {
             notes[i] = new MyNote(MIN_TONE, MAX_TONE);
@@ -103,6 +104,7 @@ public class Particle2 implements IParticle {
             MyVector1 component3 = gBestParticle.getNote(i).subMul(notes[i], SOCIAL_COMPONENT * Randomizer.getRandomFactor());
 
             velocities[i] = component1.add(component2, component3);
+            velocities[i].applyLimit(MAX_ABS_VELOCITY);
         }
     }
 

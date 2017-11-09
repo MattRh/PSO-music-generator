@@ -6,7 +6,7 @@ public class MyVector3 {
 
     public double x, y, z;
 
-    MyVector3(int minVal, int maxVal) {
+    MyVector3(double minVal, double maxVal) {
         x = Randomizer.getRandomDouble(minVal, maxVal);
         y = Randomizer.getRandomDouble(minVal, maxVal);
         z = Randomizer.getRandomDouble(minVal, maxVal);
@@ -28,6 +28,31 @@ public class MyVector3 {
 
     public MyVector3 mul(double factor) {
         return new MyVector3(x * factor, y * factor, z * factor);
+    }
+
+    public void applyLimit(double limit) {
+        applyLimit(-limit, limit);
+    }
+
+    public void applyLimit(double minLimit, double maxLimit) {
+        if(x < minLimit) {
+            x = minLimit;
+        }
+        if(x > maxLimit) {
+            x = maxLimit;
+        }
+        if(y < minLimit) {
+            y = minLimit;
+        }
+        if(y > maxLimit) {
+            y = maxLimit;
+        }
+        if(z < minLimit) {
+            z = minLimit;
+        }
+        if(z > maxLimit) {
+            z = maxLimit;
+        }
     }
 
     @Override

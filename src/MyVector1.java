@@ -26,6 +26,19 @@ public class MyVector1 {
         return new MyVector1(x * factor);
     }
 
+    public void applyLimit(double limit) {
+        applyLimit(-limit, limit);
+    }
+
+    public void applyLimit(double minLimit, double maxLimit) {
+        if(x < minLimit) {
+            x = minLimit;
+        }
+        if(x > maxLimit) {
+            x = maxLimit;
+        }
+    }
+
     @Override
     public String toString() {
         return String.format("%6.2f", x);
