@@ -7,19 +7,19 @@ import static java.lang.Math.min;
  */
 public class Tonality {
 
-    private boolean isMajor;
-    private int tonic;
+    private final boolean isMajor;
+    private final int tonic;
 
     // tone tone semitone tone tone tone semitone
-    private int[] majorOffsets = new int[] {2, 2, 1, 2, 2, 2, 1};
+    private final int[] majorOffsets = new int[] {2, 2, 1, 2, 2, 2, 1};
 
     // tone semitone tone tone semitone tone tone
-    private int[] minorOffsets = new int[] {2, 1, 2, 2, 1, 2, 2};
+    private final int[] minorOffsets = new int[] {2, 1, 2, 2, 1, 2, 2};
 
-    private int sdOffset = 5;
-    private int dOffset = 7;
+    private final int sdOffset = 5;
+    private final int dOffset = 7;
 
-    private int[] triadOffsets;
+    private final int[] triadOffsets;
 
     Tonality() {
         isMajor = Randomizer.getRandomBoolean();
