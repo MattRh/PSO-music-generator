@@ -9,7 +9,6 @@ public class Particle1 implements IParticle {
 
     public final int CHORDS_NUMBER = 16;
 
-    private final int BORDER_TONE = 72;  // It's better for note to be lower than that
     public final int MIN_TONE = 48; // Midi note can't be lower than that
     public final int MAX_TONE = 84; // Midi note can't be higher than that
 
