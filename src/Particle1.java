@@ -16,8 +16,8 @@ public class Particle1 implements IParticle {
     private final double MAX_ABS_VELOCITY = 10;
 
     public static double INERTIA_COMPONENT = 0.825; // Tendency to save current velocity
-    public static double COGNITIVE_COMPONENT = 2.32; // Tendency to return to local best
-    public static double SOCIAL_COMPONENT = 0.735; // Tendency to return to global best
+    public static double COGNITIVE_COMPONENT = 2.3; // Tendency to return to local best
+    public static double SOCIAL_COMPONENT = 0.4; // Tendency to return to global best
 
     private Tonality tone;
 

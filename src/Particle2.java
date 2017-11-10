@@ -18,7 +18,7 @@ public class Particle2 implements IParticle {
 
     public static double INERTIA_COMPONENT = 0.8; // Tendency to save current velocity
     public static double COGNITIVE_COMPONENT = 2.32; // Tendency to return to local best
-    public static double SOCIAL_COMPONENT = 0.635; // Tendency to return to global best
+    public static double SOCIAL_COMPONENT = 0.435; // Tendency to return to global best
 
     private Tonality tone;
     private MyChord[] chords;
