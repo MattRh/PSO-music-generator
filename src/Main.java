@@ -63,6 +63,7 @@ public class Main {
 
         midiWrapper.composePattern();
 
+        System.out.println(midiWrapper.getInstrument(0) + " + " + midiWrapper.getInstrument(1));
         System.out.println(midiWrapper.toString());
 
         /*midiWrapper.play();

@@ -7,7 +7,7 @@ public class PSO {
     public static int POPULATION_SIZE = 64;
     private int ITERATIONS = 250000;
 
-    private final double PRECISION = 0.45;
+    private final double PRECISION = 0.4;
 
     private IParticle globalBest;
     private double bestFitness;

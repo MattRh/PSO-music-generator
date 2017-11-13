@@ -1,3 +1,4 @@
+import org.jfugue.midi.MidiDictionary;
 import org.jfugue.midi.MidiFileManager;
 import org.jfugue.pattern.Pattern;
 import org.jfugue.player.Player;
@@ -17,8 +18,7 @@ public class MidiWrapper {
      * Instruments Codes
      *
      * Piano
-     * 0 PIANO or
-     * ACOUSTIC_GRAND
+     * 0 PIANO or ACOUSTIC_GRAND
      * 1 BRIGHT_ACOUSTIC
      * 2 ELECTRIC_GRAND
      * 3 HONKEY_TONK
@@ -46,8 +46,7 @@ public class MidiWrapper {
      * 22 HARMONICA
      * 23 TANGO_ACCORDIAN
      * Guitar
-     * 24 GUITAR or
-     * NYLON_STRING_GUITAR
+     * 24 GUITAR or NYLON_STRING_GUITAR
      * 25 STEEL_STRING_GUITAR
      * 26 ELECTRIC_JAZZ_GUITAR
      * 27 ELECTRIC_CLEAN_GUITAR
@@ -93,19 +92,31 @@ public class MidiWrapper {
      * 63 SYNTHBRASS_2
      */
 
-    private final int SPEED_MODE = 1; // 0 - slow, 1 - fast
+    private final int SPEED_MODE = 0; // 0 - slow, 1 - fast
 
     private final int HALF_LENGTH = 'h';
     private final int QUARTER_LENGTH = 'q';
     private final int EIGHTH_LENGTH = 'i';
 
     private final int TEMPO = 120;
+    private final int BAR_LENGTH = 4;
     private final char CHORDS_DURATION;
     private final char NOTE_DURATION;
-    private final int BAR_LENGTH = 4;
 
-    private final int ACCOMPANIMENT_INSTRUMENT_NUMBER = 10;
-    private final int MELODY_INSTRUMENT_NUMBER = 25;
+    /**
+     * Good combinations:
+     * Echoes(102) + String_Ensemble_1(48)
+     * Synth_Voice(54) + Brightness(100)
+     * Electric_Bass_Finger(33) + String_Ensemble_1(48)
+     * Glockenspiel(9) + Music_Box(10)
+     * Bird_Tweet(123) + Flute(73)
+     */
+
+//    private final int ACCOMPANIMENT_INSTRUMENT_NUMBER = 10;
+//    private final int MELODY_INSTRUMENT_NUMBER = 25;
+
+    private final int ACCOMPANIMENT_INSTRUMENT_NUMBER = Randomizer.getRandomInt(0, 127);
+    private final int MELODY_INSTRUMENT_NUMBER = Randomizer.getRandomInt(0, 127);
 
     private final String midiOutput = "output.mid";
     private final String textOutput = "output.txt";
@@ -168,8 +179,10 @@ public class MidiWrapper {
     }
 
     public void composePattern() {
-        Pattern s1 = new Pattern(chordsToString()).setVoice(0).setInstrument(ACCOMPANIMENT_INSTRUMENT_NUMBER);
-        Pattern s2 = new Pattern(melodyToString()).setVoice(1).setInstrument(MELODY_INSTRUMENT_NUMBER);
+        //MidiDictionary.INSTRUMENT_BYTE_TO_STRING.get(ACCOMPANIMENT_INSTRUMENT_NUMBER);
+
+        Pattern s1 = new Pattern(melodyToString()).setVoice(0).setInstrument(MELODY_INSTRUMENT_NUMBER);
+        Pattern s2 = new Pattern(chordsToString()).setVoice(1).setInstrument(ACCOMPANIMENT_INSTRUMENT_NUMBER);
 
         s1.add(s2).setTempo(TEMPO);
 
@@ -189,6 +202,17 @@ public class MidiWrapper {
         BufferedWriter writer = new BufferedWriter(new FileWriter(textOutput));
         writer.write(midiPattern.toString());
         writer.close();
+    }
+
+    public String[] getInstruments() {
+        return new String[] {
+                MidiDictionary.INSTRUMENT_BYTE_TO_STRING.get((byte)MELODY_INSTRUMENT_NUMBER) + "(" + MELODY_INSTRUMENT_NUMBER + ")",
+                MidiDictionary.INSTRUMENT_BYTE_TO_STRING.get((byte)ACCOMPANIMENT_INSTRUMENT_NUMBER) + "(" + ACCOMPANIMENT_INSTRUMENT_NUMBER + ")"
+        };
+    }
+
+    public String getInstrument(int ind) {
+        return getInstruments()[ind];
     }
 
     @Override
