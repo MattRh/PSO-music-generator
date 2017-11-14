@@ -1,85 +1,110 @@
 /**
- * AI_music_generator
+ * PSO executor
+ * <p>
  * Created by Sergey on 2017-10-27
  */
 public class PSO {
 
+    /**
+     * General PSO parameters
+     */
     public static int POPULATION_SIZE = 64;
-    private int ITERATIONS = 250000;
+    public static int ITERATIONS = 200000;
 
+    /**
+     * Precision of calculations. When global best fitness < PRECISION, then calculations stops
+     */
     private final double PRECISION = 0.4;
 
+    /**
+     * Current population, that we are working on
+     */
+    private IParticle[] population;
+
+    /**
+     * Storage for best particle data
+     */
     private IParticle globalBest;
     private double bestFitness;
 
-    PSO() {
+    PSO() {}
 
-    }
-
+    /**
+     * @param popSize   POPULATION_SIZE
+     * @param iterCount ITERATIONS
+     */
     PSO(int popSize, int iterCount) {
         POPULATION_SIZE = popSize;
         ITERATIONS = iterCount;
     }
 
     /**
-     * @return Best particle
+     * Executes PSO on given population
+     *
+     * @param population Population of particles to work on
+     * @return Best particle after iterations exceeds and answer id found
      */
     public IParticle execute(IParticle[] population) throws Exception {
-        int newBestIndex = 0;
-        for(int i = 1; i < POPULATION_SIZE; i++) {
-            if(population[i].getFitness() < population[newBestIndex].getFitness()) {
-                newBestIndex = i;
-            }
-        }
-        globalBest = population[newBestIndex].cloneParticle();
-        bestFitness = globalBest.getFitness();
+        this.bestFitness = Double.MAX_VALUE;
+        this.population = population;
+
+        defineBestParticle();
 
         for(int i = 0; i < ITERATIONS; i++) {
-            newBestIndex = -1;
-
+            // Calculate fitness for each particle
             for(int j = 0; j < POPULATION_SIZE; j++) {
                 IParticle curParticle = population[j];
 
                 curParticle.updateVelocity(globalBest);
                 curParticle.updateParticle();
-
-                if(curParticle.getFitness() < bestFitness) {
-                    newBestIndex = j;
-
-                    // Small hack to search now only values that are larger than that
-                    bestFitness = curParticle.getFitness();
-                }
-
-                //System.out.println(i + " (" + j + ") " + population[j]);
             }
 
-            if(newBestIndex >= 0) {
-                globalBest = population[newBestIndex].cloneParticle();
-                // bestFitness is already updated
-            }
+            // Find best one
+            defineBestParticle();
 
-            //System.out.println(i + " gbest " + globalBest.toString());
-
+            // Show progress
             if(i % (ITERATIONS / 10) == 0) {
                 System.out.println("- PSO step#" + i + "/" + ITERATIONS + " completed: " + bestFitness);
                 //System.out.println(i + " gbest " + globalBest.toString());
             }
 
+            // If solution is found then stop
             if(bestFitness <= PRECISION) {
                 System.out.println("!!!Solution found!!! (step: " + i + ")");
                 break;
             }
         }
 
-        /*for(IParticle p: population) {
-            System.out.println(p.toString());
-        }*/
-
         return globalBest;
     }
 
+    /**
+     * Finds current best particle or leaves old best particle unchanged
+     */
+    private void defineBestParticle() {
+        int newBestIndex = -1;
+
+        for(int i = 1; i < POPULATION_SIZE; i++) {
+            if(population[i].getFitness() < bestFitness) {
+                newBestIndex = i;
+
+                // Small hack to search now only values that are larger than that
+                bestFitness = population[i].getFitness();
+            }
+        }
+
+        if(newBestIndex >= 0) {
+            // bestFitness is already updated, so we don't need to set it again
+            globalBest = population[newBestIndex].cloneParticle();
+        }
+    }
+
+    /**
+     * @return Best fitness value
+     */
     public double getBestFitness() {
         return bestFitness;
     }
+
 }
 

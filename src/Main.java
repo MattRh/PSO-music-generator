@@ -2,78 +2,80 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static java.lang.Math.pow;
+
 /**
- * AI_music_generator
+ * "Simple" music generation using PSO
+ * <p>
  * Created by Sergey on 2017-10-25
  */
 public class Main {
 
-
     public static void main(String[] args) throws Exception {
-        //findBestFactors();
-
+        // Generate initial tonality
         Tonality tonality = new Tonality();
         System.out.println("Tonality: " + tonality.toString() + "\n");
 
-        //Particle1 chordSequence = null;
-        Particle1 chordSequence = find1(tonality);
+        // Generates accompaniment
+        Particle1 chordSequence = findAccompaniment(tonality);
         System.out.println();
 
-        Particle2 melodySequence = find2(tonality, chordSequence);
+        // Generates melody for pregenerated accompaniment
+        Particle2 melodySequence = findMelody(tonality, chordSequence);
         System.out.println();
 
+        // Process notes and chords into midi
         midiFunc(chordSequence, melodySequence);
     }
 
-    public static Particle1 find1(Tonality tone) throws Exception {
+    public static Particle1 findAccompaniment(Tonality tone) throws Exception {
         PSO pso1 = new PSO();
         IParticle[] population1 = new Particle1().generatePopulation(PSO.POPULATION_SIZE, tone);
 
         System.out.println("Start PSO#1");
         long startTime = System.nanoTime();
+
         Particle1 chordSequence = (Particle1)pso1.execute(population1);
+
         double runTime = (double)(System.nanoTime() - startTime);
-        System.out.println("End PSO#1. Run for " + runTime / (1000 * 1000 * 1000) + "s");
+        System.out.println("End PSO#1. Run for " + runTime / pow(10, 9) + "s");
 
         return chordSequence;
     }
 
-    public static Particle2 find2(Tonality tone, Particle1 chords) throws Exception {
+    public static Particle2 findMelody(Tonality tone, Particle1 chords) throws Exception {
         PSO pso2 = new PSO();
         IParticle[] population2 = new Particle2().generatePopulation(PSO.POPULATION_SIZE, tone, chords.getChords());
 
         System.out.println("Start PSO#2");
         long startTime = System.nanoTime();
+
         Particle2 noteSequence = (Particle2)pso2.execute(population2);
+
         double runTime = (double)(System.nanoTime() - startTime);
-        System.out.println("End PSO#2. Run for " + runTime / (1000 * 1000 * 1000) + "s");
+        System.out.println("End PSO#2. Run for " + runTime / pow(10, 9) + "s");
 
         return noteSequence;
     }
 
     public static void midiFunc(Particle1 chords, Particle2 notes) throws IOException {
         System.out.println("Setting MidiWrapper");
-        MidiWrapper midiWrapper = new MidiWrapper();
-
-        midiWrapper.setChords(chords.getChords());
-        midiWrapper.setMelody(notes.getNotes());
-
-        /*System.out.println(chords.toString());
-        System.out.println(notes.toString());*/
-
-        midiWrapper.composePattern();
+        MidiWrapper midiWrapper = new MidiWrapper(chords.getChords(), notes.getNotes());
 
         System.out.println(midiWrapper.getInstrument(0) + " + " + midiWrapper.getInstrument(1));
         System.out.println(midiWrapper.toString());
 
-        /*midiWrapper.play();
         midiWrapper.saveMidi();
-        midiWrapper.saveText();*/
 
-        System.out.println("Saving everything");
-        midiWrapper.doEverything();
+        /*System.out.println("Saving everything");
+        midiWrapper.doEverything();*/
     }
 
+    /**
+     * Helps to find best factors for PSO
+     *
+     * @throws Exception
+     */
     private static void findBestFactors() throws Exception {
         ArrayList<Double[]> results = new ArrayList<>(1000); // lf0, lf1, lf2, avgBestFitness
 

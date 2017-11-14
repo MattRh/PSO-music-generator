@@ -9,14 +9,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * AI_music_generator
+ * Wrapper for simple work with midi
+ * <p>
  * Created by Sergey on 2017-10-30
  */
 public class MidiWrapper {
 
     /**
      * Instruments Codes
-     *
+     * <p>
      * Piano
      * 0 PIANO or ACOUSTIC_GRAND
      * 1 BRIGHT_ACOUSTIC
@@ -100,6 +101,7 @@ public class MidiWrapper {
 
     private final int TEMPO = 120;
     private final int BAR_LENGTH = 4;
+
     private final char CHORDS_DURATION;
     private final char NOTE_DURATION;
 
@@ -110,13 +112,14 @@ public class MidiWrapper {
      * Electric_Bass_Finger(33) + String_Ensemble_1(48)
      * Glockenspiel(9) + Music_Box(10)
      * Bird_Tweet(123) + Flute(73)
+     * Skakuhachi(77) + Xylophone(13)
      */
 
-//    private final int ACCOMPANIMENT_INSTRUMENT_NUMBER = 10;
-//    private final int MELODY_INSTRUMENT_NUMBER = 25;
+    private final int ACCOMPANIMENT_INSTRUMENT_NUMBER = 55;
+    private final int MELODY_INSTRUMENT_NUMBER = 54;
 
-    private final int ACCOMPANIMENT_INSTRUMENT_NUMBER = Randomizer.getRandomInt(0, 127);
-    private final int MELODY_INSTRUMENT_NUMBER = Randomizer.getRandomInt(0, 127);
+//    private final int ACCOMPANIMENT_INSTRUMENT_NUMBER = Randomizer.getRandomInt(0, 127);
+//    private final int MELODY_INSTRUMENT_NUMBER = Randomizer.getRandomInt(0, 127);
 
     private final String midiOutput = "output.mid";
     private final String textOutput = "output.txt";
@@ -149,6 +152,7 @@ public class MidiWrapper {
     MidiWrapper(MyChord[] chords, MyNote[] melody) {
         this();
         setParams(chords, melody);
+        composePattern();
     }
 
     /**

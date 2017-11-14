@@ -2,7 +2,8 @@ import static java.lang.Math.abs;
 import static java.lang.Math.pow;
 
 /**
- * AI_music_generator
+ * Particle for melody
+ * <p>
  * Created by Sergey on 2017-11-03
  */
 
@@ -79,10 +80,6 @@ public class Particle2 implements IParticle {
     @Override
     public double getFitness() {
         return fitness;
-    }
-
-    public double getBestFitness() {
-        return bestFitness;
     }
 
     public MyNote[] getNotes() {

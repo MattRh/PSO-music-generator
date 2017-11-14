@@ -1,5 +1,6 @@
 /**
- * AI_music_generator
+ * Common particle interface
+ * <p>
  * Created by Sergey on 2017-11-03
  */
 public interface IParticle {

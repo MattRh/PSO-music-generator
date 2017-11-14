@@ -2,7 +2,8 @@ import static java.lang.Math.abs;
 import static java.lang.Math.pow;
 
 /**
- * AI_music_generator
+ * Particle for accompaniment
+ * <p>
  * Created by Sergey on 2017-10-27
  */
 public class Particle1 implements IParticle {
@@ -110,10 +111,6 @@ public class Particle1 implements IParticle {
         return new Particle1(tone, chords.clone(), velocities.clone(), fitness);
     }
 
-    public double getBestFitness() {
-        return bestFitness;
-    }
-
     public MyChord[] getChords() {
         return chords;
     }
@@ -210,4 +207,5 @@ public class Particle1 implements IParticle {
 
         return 0;
     }
+
 }

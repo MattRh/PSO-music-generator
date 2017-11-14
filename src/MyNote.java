@@ -1,5 +1,6 @@
 /**
- * AI_music_generator
+ * Simple note
+ * <p>
  * Created by Sergey on 2017-10-27
  */
 public class MyNote {
@@ -46,4 +47,5 @@ public class MyNote {
     public String toString() {
         return String.format("%.2f", number);
     }
+
 }

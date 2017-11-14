@@ -1,5 +1,6 @@
 /**
- * AI_music_generator
+ * 3D vector
+ * <p>
  * Created by Sergey on 2017-10-27
  */
 public class MyVector3 {
@@ -59,4 +60,5 @@ public class MyVector3 {
     public String toString() {
         return String.format("(%6.2f; %6.2f; %6.2f)", x, y, z);
     }
+
 }

@@ -1,5 +1,6 @@
 /**
- * AI_music_generator
+ * 1D vector. Actually it is a scalar
+ * <p>
  * Created by Sergey on 2017-11-08
  */
 public class MyVector1 {
@@ -43,4 +44,5 @@ public class MyVector1 {
     public String toString() {
         return String.format("%6.2f", x);
     }
+
 }

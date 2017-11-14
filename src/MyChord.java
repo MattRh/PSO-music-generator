@@ -1,5 +1,6 @@
 /**
- * AI_music_generator
+ * Simple chord of 3 notes
+ * <p>
  * Created by Sergey on 2017-10-27
  */
 public class MyChord {
@@ -50,4 +51,5 @@ public class MyChord {
     public String toString() {
         return String.format("[%.2f %.2f %.2f]", n1, n2, n3);
     }
+
 }

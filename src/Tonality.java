@@ -3,11 +3,15 @@ import static java.lang.Math.min;
 import static java.lang.Math.round;
 
 /**
- * AI_music_generator
+ * Some tonality. Generates randomly, Allows to check chords and notes
+ * <p>
  * Created by Sergey on 2017-11-06
  */
 public class Tonality {
 
+    /**
+     * General tonality data
+     */
     private final boolean isMajor;
     private final int tonic;
 
@@ -17,14 +21,17 @@ public class Tonality {
     // tone semitone tone tone semitone tone tone
     private final int[] minorOffsets = new int[] {2, 1, 2, 2, 1, 2, 2};
 
-    private final int sdOffset = 5;
-    private final int dOffset = 7;
+    private final int sdOffset = 5; // Subdominan offset from tonica
+    private final int dOffset = 7; // Dominant offset from tonica
 
-    private final int[] triadOffsets;
+    private final int[] triadOffsets; // Note offsets in triad
 
+    /**
+     * Generates arbitrary tonality
+     */
     Tonality() {
-        isMajor = Randomizer.getRandomBoolean();
         tonic = Randomizer.getRandomInt(0, 11);
+        isMajor = Randomizer.getRandomBoolean();
 
         if(isMajor) {
             triadOffsets = new int[] {0, 4, 7};
@@ -33,14 +40,29 @@ public class Tonality {
         }
     }
 
-    public boolean isMajor() {
-        return isMajor;
+    /**
+     * Sets constants of tonality
+     *
+     * @param tonic
+     * @param isMajor
+     */
+    Tonality(int tonic, boolean isMajor) {
+        this.tonic = tonic;
+        this.isMajor = isMajor;
+
+        if(isMajor) {
+            triadOffsets = new int[] {0, 4, 7};
+        } else {
+            triadOffsets = new int[] {0, 3, 7};
+        }
     }
 
-    public boolean isMinor() {
-        return !isMajor;
-    }
-
+    /**
+     * Check chord to fit in tonality
+     *
+     * @param chord Chord to check
+     * @return Distance from "good" chord state
+     */
     public double checkChord(MyChord chord) {
         double result = 0;
 
@@ -82,9 +104,17 @@ public class Tonality {
         return result;
     }
 
+    /**
+     * Check note to fit in tonality and match chord
+     *
+     * @param note  Note to check
+     * @param chord Chord to comply with
+     * @return Distance from "good" note
+     */
     public double checkNote(MyNote note, MyChord chord) {
         int intNote = (int)note.number;
 
+        // Finding closest tonica/subdominant/dominant
         int tClosest = intNote - ((intNote - tonic) % 12) + ((int)(round(chord.n1) - tonic) % 12);
         int sdClosest = tClosest + triadOffsets[1];
         int dClosest = tClosest + triadOffsets[2];
@@ -96,6 +126,9 @@ public class Tonality {
         return min3(tDiff, sdDiff, dDiff);
     }
 
+    /**
+     * @return Minimum value between given three values
+     */
     private double min3(double a, double b, double c) {
         return min(min(a, b), c);
     }
@@ -104,4 +137,5 @@ public class Tonality {
     public String toString() {
         return "" + tonic + (isMajor ? "maj" : "min");
     }
+
 }
