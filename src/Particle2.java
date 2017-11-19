@@ -143,7 +143,7 @@ public class Particle2 implements IParticle {
             MyNote note = notes[i];
             MyChord chord = chords[i / 2];
 
-            // If chord is out of range
+            // If note is out of range
             if(note.number < MIN_TONE || note.number > MAX_TONE) {
                 fitness += pow(getReturnFactor(note) * 2, 2) * 4;
             }
@@ -153,7 +153,7 @@ public class Particle2 implements IParticle {
                 fitness += pow((chord.n1 + 12) - note.number, 2);
             }
 
-            // Note have to fit to chord
+            // Note have to fit to chord and tonality
             fitness += tone.checkNote(note, chord);
         }
 

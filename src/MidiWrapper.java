@@ -93,7 +93,7 @@ public class MidiWrapper {
      * 63 SYNTHBRASS_2
      */
 
-    private final int SPEED_MODE = 0; // 0 - slow, 1 - fast
+    private final int SPEED_MODE = 1; // 0 - slow, 1 - fast
 
     private final int HALF_LENGTH = 'h';
     private final int QUARTER_LENGTH = 'q';
@@ -107,6 +107,8 @@ public class MidiWrapper {
 
     /**
      * Good combinations:
+     * Alto_Sax(65) + Taiko_Drum(116)
+     * Pan_Flute(75) + Bright_Acoustic(1)
      * Echoes(102) + String_Ensemble_1(48)
      * Synth_Voice(54) + Brightness(100)
      * Electric_Bass_Finger(33) + String_Ensemble_1(48)
@@ -115,11 +117,11 @@ public class MidiWrapper {
      * Skakuhachi(77) + Xylophone(13)
      */
 
-//    private final int ACCOMPANIMENT_INSTRUMENT_NUMBER = 55;
-//    private final int MELODY_INSTRUMENT_NUMBER = 14;
+    private final int ACCOMPANIMENT_INSTRUMENT_NUMBER = 47;
+    private final int MELODY_INSTRUMENT_NUMBER = 55;
 
-    private final int ACCOMPANIMENT_INSTRUMENT_NUMBER = Randomizer.getRandomInt(0, 127);
-    private final int MELODY_INSTRUMENT_NUMBER = Randomizer.getRandomInt(0, 127);
+//    private final int ACCOMPANIMENT_INSTRUMENT_NUMBER = Randomizer.getRandomInt(0, 127);
+//    private final int MELODY_INSTRUMENT_NUMBER = Randomizer.getRandomInt(0, 127);
 
     private final String midiOutput = "output.mid";
     private final String textOutput = "output.txt";

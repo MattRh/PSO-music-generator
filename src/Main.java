@@ -13,7 +13,8 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         // Generate initial tonality
-        Tonality tonality = new Tonality(9, false);
+        //Tonality tonality = new Tonality();
+        Tonality tonality = new Tonality(2, false);
         System.out.println("Tonality: " + tonality.toString() + "\n");
 
         // Generates accompaniment
