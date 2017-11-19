@@ -9,7 +9,7 @@ public class PSO {
      * General PSO parameters
      */
     public static int POPULATION_SIZE = 64;
-    public static int ITERATIONS = 200000;
+    public static int ITERATIONS = 100000;
 
     /**
      * Precision of calculations. When global best fitness < PRECISION, then calculations stops

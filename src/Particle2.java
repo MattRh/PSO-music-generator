@@ -11,7 +11,7 @@ public class Particle2 implements IParticle {
 
     public final int NOTES_NUMBER = 32;
 
-    public final int MIN_TONE = 60; // Midi note can't be lower than that
+    public final int MIN_TONE = 60; // Midi note can't be lower than that. It is 48 + 12, so there is a "room" of one octave for accompaniment
     public final int MAX_TONE = 96; // Midi note can't be higher than that
 
     private final double MAX_START_ABS_VELOCITY = 3.5;

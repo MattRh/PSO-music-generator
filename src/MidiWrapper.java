@@ -115,11 +115,11 @@ public class MidiWrapper {
      * Skakuhachi(77) + Xylophone(13)
      */
 
-    private final int ACCOMPANIMENT_INSTRUMENT_NUMBER = 55;
-    private final int MELODY_INSTRUMENT_NUMBER = 54;
+//    private final int ACCOMPANIMENT_INSTRUMENT_NUMBER = 55;
+//    private final int MELODY_INSTRUMENT_NUMBER = 14;
 
-//    private final int ACCOMPANIMENT_INSTRUMENT_NUMBER = Randomizer.getRandomInt(0, 127);
-//    private final int MELODY_INSTRUMENT_NUMBER = Randomizer.getRandomInt(0, 127);
+    private final int ACCOMPANIMENT_INSTRUMENT_NUMBER = Randomizer.getRandomInt(0, 127);
+    private final int MELODY_INSTRUMENT_NUMBER = Randomizer.getRandomInt(0, 127);
 
     private final String midiOutput = "output.mid";
     private final String textOutput = "output.txt";

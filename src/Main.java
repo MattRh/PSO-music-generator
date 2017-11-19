@@ -13,7 +13,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         // Generate initial tonality
-        Tonality tonality = new Tonality();
+        Tonality tonality = new Tonality(9, false);
         System.out.println("Tonality: " + tonality.toString() + "\n");
 
         // Generates accompaniment
@@ -66,6 +66,7 @@ public class Main {
         System.out.println(midiWrapper.toString());
 
         midiWrapper.saveMidi();
+        midiWrapper.play();
 
         /*System.out.println("Saving everything");
         midiWrapper.doEverything();*/
